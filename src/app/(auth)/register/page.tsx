@@ -28,6 +28,14 @@ export default function Page() {
               <form>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
+                    <Label htmlFor="email">Full name</Label>
+                    <Input id="name" type="text" placeholder="Your name" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Tag name</Label>
+                    <Input id="tag" type="text" placeholder="Your alias name" />
+                  </div>
+                  <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
@@ -39,19 +47,23 @@ export default function Page() {
                     <Label htmlFor="password">Password</Label>
                     <Input id="password" type="password" />
                   </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="confirm">Confirm Password</Label>
+                    <Input id="confirm" type="password" />
+                  </div>
                 </div>
               </form>
             </CardContent>
             <CardFooter className="p-4 border-t border-border [.border-t]:pt-4 flex flex-col gap-2">
-              <Button className="w-full">Sign In</Button>
-              <Button className="w-full" variant={"outline"} asChild>
-                <Link href={"/register"}>Sign Up</Link>
+              <Button className="w-full">Register</Button>
+              <Button className="w-full" variant={"link"}>
+                Have an account?
               </Button>
             </CardFooter>
           </MagicCard>
         </Card>
         <h4 className="my-4">Or</h4>
-        <p>Sign in using</p>
+        <p>Complete sign up using</p>
         <div className="w-full flex flex-row justify-center items-center gap-4  mt-4">
           <Button size={"icon"} className="rounded-full">
             <GitHubLogoIcon />

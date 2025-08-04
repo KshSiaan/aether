@@ -53,11 +53,13 @@ export default function Navbar() {
 
       {/* Right section */}
       <div className="flex justify-end">
-        <ShimmerButton className="shadow-2xl">
-          <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-            Join Now
-          </span>
-        </ShimmerButton>
+        <Link href={"/login"}>
+          <ShimmerButton className="shadow-2xl">
+            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+              Join Now
+            </span>
+          </ShimmerButton>
+        </Link>
       </div>
     </motion.div>
   );
