@@ -11,7 +11,7 @@ const stats = [
     trend: "up",
     icon: Users2Icon,
     gradient: "from-blue-500 to-cyan-500",
-    bgGradient: "from-blue-50 to-cyan-50",
+    bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950",
     description: "Active users this month",
   },
   {
@@ -21,7 +21,8 @@ const stats = [
     trend: "up",
     icon: FileTextIcon,
     gradient: "from-emerald-500 to-teal-500",
-    bgGradient: "from-emerald-50 to-teal-50",
+    bgGradient:
+      "from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950",
     description: "Content published",
   },
   {
@@ -31,7 +32,8 @@ const stats = [
     trend: "up",
     icon: BookOpenIcon,
     gradient: "from-purple-500 to-pink-500",
-    bgGradient: "from-purple-50 to-pink-50",
+    bgGradient:
+      "from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950",
     description: "Published articles",
   },
   {
@@ -41,7 +43,7 @@ const stats = [
     trend: "up",
     icon: ZapIcon,
     gradient: "from-orange-500 to-red-500",
-    bgGradient: "from-orange-50 to-red-50",
+    bgGradient: "from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950",
     description: "New features added",
   },
 ];
@@ -98,17 +100,21 @@ const StatCard = ({
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-slate-600 text-sm font-medium uppercase tracking-wide">
+          <h3 className="text-slate-600 dark:text-slate-300 text-sm font-medium uppercase tracking-wide">
             {title}
           </h3>
           <div className="flex items-end justify-between">
-            <span className="text-3xl font-bold text-slate-900">{value}</span>
+            <span className="text-3xl font-bold text-slate-900 dark:text-white">
+              {value}
+            </span>
           </div>
-          <p className="text-slate-500 text-sm">{description}</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">
+            {description}
+          </p>
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/5 dark:from-white/0 dark:to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </motion.div>
   );
 };
@@ -125,7 +131,7 @@ export default function Analytics() {
             hidden: {},
             visible: {
               transition: {
-                staggerChildren: 0.2, // stagger animations
+                staggerChildren: 0.2,
               },
             },
           }}

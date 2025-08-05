@@ -10,21 +10,23 @@ export default function Footer() {
 
   return (
     <footer className="p-4 bg-secondary">
-      <div className="p-4 bg-foreground border rounded-lg">
+      <div className="p-4 bg-foreground dark:bg-background border rounded-lg">
         <div className="flex justify-between items-center">
-          <h4 className="text-xl font-black text-background">Aether</h4>
+          <h4 className="text-xl font-black text-background  dark:!text-foreground">
+            Aether
+          </h4>
           <div className="flex gap-6">
             <Button>Connect with Raven</Button>
           </div>
         </div>
 
-        <div className="mt-6 relative flex justify-between items-center text-xs text-muted">
+        <div className="mt-6 relative flex justify-between items-center text-xs text-muted  dark:!text-muted-foreground">
           <span>&copy; 2025 Aether</span>
           <div className="absolute inset-x-0 flex justify-center">
             <Button
               size="sm"
               variant="link"
-              className="text-background"
+              className="text-background dark:!text-muted-foreground"
               onClick={() => setExtended((prev) => !prev)}
             >
               {extended ? (
@@ -55,16 +57,25 @@ export default function Footer() {
               className="overflow-hidden"
             >
               <Separator className="mt-4 bg-zinc-600!" />
-              <div className="mt-4 text-background w-full flex justify-between gap-4 items-center">
+              <div className="mt-4 text-background dark:!text-muted-foreground w-full flex justify-between gap-4 items-center">
                 <div className="text-sm">Legal Pages:</div>
                 <div className="">
-                  <Button variant="link" className="text-background">
+                  <Button
+                    variant="link"
+                    className="text-background dark:!text-foreground"
+                  >
                     Terms & Conditions
                   </Button>
-                  <Button variant="link" className="text-background">
+                  <Button
+                    variant="link"
+                    className="text-background dark:!text-foreground"
+                  >
                     Privacy Policy
                   </Button>
-                  <Button variant="link" className="text-background">
+                  <Button
+                    variant="link"
+                    className="text-background dark:!text-foreground"
+                  >
                     Return Policy
                   </Button>
                 </div>

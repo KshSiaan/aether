@@ -11,7 +11,6 @@ import { SparklesText } from "../magicui/sparkles-text";
 import { ShimmerButton } from "../magicui/shimmer-button";
 import { Button } from "../ui/button";
 import Link from "next/link";
-
 export default function Navbar() {
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -32,7 +31,7 @@ export default function Navbar() {
         willChange: "transform",
         transform: "translateZ(0)",
       }}
-      className="fixed py-4 left-1/2 -translate-x-1/2 w-full px-4 grid grid-cols-3 items-center gap-4 bg-zinc-50/30 backdrop-blur-sm z-50"
+      className="fixed py-4 left-1/2 -translate-x-1/2 w-full px-4 grid grid-cols-3 items-center gap-4 bg-zinc-50/30 dark:bg-zinc-950/30 backdrop-blur-sm z-50"
     >
       {/* Left section */}
       <div className="flex justify-start">
@@ -43,7 +42,7 @@ export default function Navbar() {
 
       {/* Center section - perfectly centered */}
       <nav className="h-12 flex justify-center items-center">
-        <div className="px-4 h-full rounded-full border flex justify-center items-center bg-zinc-50/40 shadow">
+        <div className="px-4 h-full rounded-full border flex justify-center items-center bg-zinc-50/40 dark:bg-zinc-950/40 shadow">
           <Button variant={"link"}>Features</Button>
           <Button variant={"link"}>Origin</Button>
           <Button variant={"link"}>Blogs</Button>
