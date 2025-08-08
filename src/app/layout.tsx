@@ -8,7 +8,7 @@ const reem = Reem_Kufi({
 });
 
 export const metadata: Metadata = {
-  title: "Aether — In Heaven Where We All Connect",
+  title: "Aether",
   description:
     "Aether is the next-gen social media platform where people connect, share, blog, and make new friends in a space designed for Bangladesh and beyond.",
   keywords: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "Global Social Platform",
     "Tech Community Bangladesh",
   ],
-  authors: [{ name: "Aether Team", url: "https://aetherorigin.vercel.app" }], // Change URL to yours
+  authors: [{ name: "Raven", url: "https://aetherorigin.vercel.app" }], // Change URL to yours
   creator: "Aether",
   openGraph: {
     title: "Aether — In Heaven Where We All Connect",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Aether — In Heaven Where We All Connect",
     description:
       "Aether is the social media where you can post, blog, connect, and grow a community. Built for Bangladesh, open to the world.",
-    images: ["/twitter-aether.png"], // Placeholder for Twitter Image (800x418)
+    images: ["/aether.png"], // Placeholder for Twitter Image (800x418)
     creator: "@aether", // Optional, set later
   },
   metadataBase: new URL("https://aetherorigin.vercel.app"), // Update to your domain

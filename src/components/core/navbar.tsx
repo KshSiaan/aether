@@ -46,7 +46,9 @@ export default function Navbar() {
           <Button variant={"link"}>Features</Button>
           <Button variant={"link"}>Origin</Button>
           <Button variant={"link"}>Blogs</Button>
-          <Button variant={"link"}>Settings</Button>
+          <Button variant={"link"}>
+            <Link href={"/settings"}>Settings</Link>
+          </Button>
         </div>
       </nav>
 
