@@ -43,10 +43,14 @@ export default function Navbar() {
       {/* Center section - perfectly centered */}
       <nav className="h-12 flex justify-center items-center">
         <div className="px-4 h-full rounded-full border flex justify-center items-center bg-zinc-50/40 dark:bg-zinc-950/40 shadow">
-          <Button variant={"link"}>Features</Button>
-          <Button variant={"link"}>Origin</Button>
+          <Button variant={"link"} asChild>
+            <Link href={"/app/features"}>Features</Link>
+          </Button>
+          <Button variant={"link"} asChild>
+            <Link href={"/origin"}>Origin</Link>
+          </Button>
           <Button variant={"link"}>Blogs</Button>
-          <Button variant={"link"}>
+          <Button variant={"link"} asChild>
             <Link href={"/settings"}>Settings</Link>
           </Button>
         </div>

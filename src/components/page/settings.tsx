@@ -1,6 +1,8 @@
 "use client";
+
 import {
   ChevronLeft,
+  EllipsisIcon,
   Loader2Icon,
   LoaderIcon,
   LucideLoaderPinwheel,
@@ -17,37 +19,64 @@ import { HomeIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function Settings() {
   const themes = ["light", "dark", "system"];
   const { theme, setTheme } = useTheme();
+  const navig = useRouter();
+  const loaders = {
+    names: ["type-1", "type-2", "type-3"],
+    tags: [
+      <Loader2Icon key={1} />,
+      <LoaderIcon key={2} />,
+      <LucideLoaderPinwheel key={3} />,
+    ],
+  };
+
   return (
-    <div className="">
-      <div className="h-18 border-b flex jsutify-start items-center px-6">
+    <div className="h-dvh flex flex-col">
+      {/* Header */}
+      <header className="h-12 border-b flex justify-start items-center px-6 w-full">
         <h3>Settings</h3>
-      </div>
-      <section className="w-full grid grid-cols-5">
-        <div className="h-dvh w-full border-r">
-          <nav className="w-full h-full space-y-6 p-6 pt-0">
+      </header>
+
+      {/* Main Content */}
+      <section className="flex-1 grid grid-cols-5">
+        {/* Sidebar */}
+        <div className="w-full p-6">
+          <nav className="w-full h-full space-y-6 bg-secondary/50 rounded-lg p-6 pt-0">
             <div className="border-b py-4">
-              <Button variant={"ghost"}>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navig.back();
+                }}
+              >
                 <ChevronLeft />
                 Go back
               </Button>
             </div>
-            <Button className="w-full justify-start" variant={"secondary"}>
-              <HomeIcon /> General
-            </Button>
-            <Button className="w-full justify-start" variant={"link"}>
-              Others
-            </Button>
+            <div className="space-y-2 p-2">
+              <Button className="w-full justify-start" variant="secondary">
+                <HomeIcon /> General
+              </Button>
+              <Button className="w-full justify-start" variant="ghost">
+                <EllipsisIcon />
+                Others
+              </Button>
+            </div>
           </nav>
         </div>
+
+        {/* Main Settings */}
         <div className="col-span-4 p-12">
           <h2 className="text-lg font-bold">General Settings</h2>
           <p className="text-sm text-muted-foreground">
             Manage your preferences and application behavior
           </p>
+
+          {/* Theme Selection */}
           <div className="mt-12 border-t pt-4">
             <span>Choose your theme:</span>
             <div className="w-full grid grid-cols-3 gap-6 mt-4">
@@ -84,31 +113,33 @@ export default function Settings() {
               ))}
             </div>
           </div>
+
           <Separator className="mt-6" />
+
+          {/* Time Format Selection */}
           <div className="pt-4">
             <span>Choose Time format preference:</span>
             <div className="grid grid-cols-2 pt-4 gap-6">
-              <Button className="w-full" variant={"outline"}>
+              <Button className="w-full" variant="outline">
                 (12-hour clock) 6:20 PM
               </Button>
-              <Button className="w-full" variant={"outline"}>
+              <Button className="w-full" variant="outline">
                 (Military hour clock) 18:20
               </Button>
             </div>
           </div>
+
           <Separator className="mt-6" />
+
+          {/* Loader Selection */}
           <div className="pt-4">
             <span>Choose your loading icon:</span>
             <div className="flex flex-row justify-start items-center gap-4 mt-4">
-              <Button className="" size={"icon"} variant={"outline"}>
-                <Loader2Icon />
-              </Button>
-              <Button className="" size={"icon"} variant={"outline"}>
-                <LoaderIcon />
-              </Button>
-              <Button className="" size={"icon"} variant={"outline"}>
-                <LucideLoaderPinwheel />
-              </Button>
+              {loaders.names.map((_, i) => (
+                <Button size="icon" variant="outline" key={i}>
+                  {loaders.tags[i]}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
