@@ -29,7 +29,7 @@ export default function Layout({
           <Laptop2Icon /> Contact Developer
         </Button>
       </div>
-      <div className="col-span-5 h-full border rounded-lg p-6">{children}</div>
+      <div className="col-span-5 h-full border rounded-lg">{children}</div>
       <div className="">
         <h4 className="text-xl">Friends</h4>
         <div className="w-full rounded-sm p-2 text-sm text-muted-foreground flex flex-col justify-center items-center gap-2 ">
