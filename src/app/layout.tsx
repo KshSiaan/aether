@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Reem_Kufi } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import TanstackProvider from "@/provider/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 const reem = Reem_Kufi({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,10 +49,10 @@ export const metadata: Metadata = {
     title: "Aether — In Heaven Where We All Connect",
     description:
       "Aether is the social media where you can post, blog, connect, and grow a community. Built for Bangladesh, open to the world.",
-    images: ["/aether.png"], // Placeholder for Twitter Image (800x418)
-    creator: "@aether", // Optional, set later
+    images: ["/aether.png"],
+    creator: "@aether",
   },
-  metadataBase: new URL("https://aetherorigin.vercel.app"), // Update to your domain
+  metadataBase: new URL("https://aetherorigin.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -71,7 +73,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <TanstackProvider>
+              {children}
+              <Toaster />
+            </TanstackProvider>
           </ThemeProvider>
         </body>
       </body>
