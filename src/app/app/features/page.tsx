@@ -42,7 +42,7 @@ export default function Page() {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-6 h-full w-full p-6">
+    <div className="grid lg:grid-cols-3 gap-6 h-full w-full p-6">
       {dataSet.map((x) => (
         <Link href={`features/${x.to}`} key={x.title}>
           <MagicCard className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300">

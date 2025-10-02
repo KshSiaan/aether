@@ -10,7 +10,7 @@ import {
 const cards = [
   {
     name: "Features",
-    className: "col-span-2",
+    className: "lg:col-span-2",
     Icon: LayoutDashboardIcon,
     description: "Tools built for minds that build differently.",
     href: "/",
@@ -18,7 +18,7 @@ const cards = [
   },
   {
     name: "Origin of Aether",
-    className: "col-span-4",
+    className: "lg:col-span-4",
     Icon: OrigamiIcon,
     description: "Where ideas take form and function.",
     href: "/",
@@ -26,7 +26,7 @@ const cards = [
   },
   {
     name: "Read our Blogs",
-    className: "col-span-4",
+    className: "lg:col-span-4",
     Icon: BookHeartIcon,
     description: "Thoughts from builders, for builders.",
     href: "/",
@@ -34,7 +34,7 @@ const cards = [
   },
   {
     name: "Join Aether now",
-    className: "col-span-2",
+    className: "lg:col-span-2",
     Icon: KeyIcon,
     description: "Not a platform. A creator’s realm.",
     href: "/",
@@ -44,7 +44,7 @@ const cards = [
 
 export default function BentoSection() {
   return (
-    <BentoGrid className="mt-12 grid-cols-6">
+    <BentoGrid className="mt-12 lg:grid-cols-6">
       {cards.map((card, index) => (
         <BentoCard
           key={index}

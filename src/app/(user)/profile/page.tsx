@@ -4,31 +4,36 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { meApi } from "@/lib/api/auth";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { BananaIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useCookies } from "react-cookie";
+import { toast } from "sonner";
 
 export default function Page() {
-  const [{ token }] = useCookies(["token"]);
+  const [{ token }, , removeToken] = useCookies(["token"]);
+  const router = useRouter();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["me"],
     queryFn: (): idk => {
       return meApi(token);
     },
-    // retry: false,
   });
   if (isPending) {
     return (
       <div className=" pt-24! p-6 space-y-6">
         <Skeleton className="w-full  h-[400px] rounded-2xl" />
-        <div className="grid grid-cols-3 gap-6">
-          <Skeleton className="w-full  h-[400px] rounded-2xl" />
-          <Skeleton className="w-full  h-[400px] rounded-2xl" />
-          <Skeleton className="w-full  h-[400px] rounded-2xl" />
+        <div className="grid grid-cols-2 gap-6">
+          <Skeleton className="w-full  h-[200px] rounded-2xl" />
+          <Skeleton className="w-full  h-[200px] rounded-2xl" />
+          <Skeleton className="w-full  h-[200px] rounded-2xl" />
+          <Skeleton className="w-full  h-[200px] rounded-2xl" />
         </div>
       </div>
     );
@@ -77,12 +82,27 @@ export default function Page() {
         <div className="">
           <h1 className="text-4xl font-bold">{user.alias}</h1>
           <p>
-            <span className="text-muted-foreground">AKA</span> ( {user.name} )
+            <span className="text-muted-foreground">aka</span> ( {user.name} )
           </p>
         </div>
         <div className="flex w-full justify-end items-center gap-2 mt-6">
-          <Button variant={"outline"}>Edit Profile</Button>
-          <Button variant={"destructive"}>Sign Out</Button>
+          <Button variant={"outline"} asChild>
+            <Link href={"/profile/edit"}>Edit Profile</Link>
+          </Button>
+          <Button
+            variant={"destructive"}
+            onClick={() => {
+              try {
+                removeToken("token");
+                router.push("/login");
+                toast.success("Singed out successfully");
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          >
+            Sign Out
+          </Button>
         </div>
         <div className="w-full grid pt-6 grid-cols-2 gap-6">
           <Card>
@@ -101,8 +121,34 @@ export default function Page() {
               {user.connects?.length ?? 0}
             </CardContent>
           </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Blog nodes</CardTitle>
+            </CardHeader>
+            <CardContent className="text-3xl">
+              {user.connects?.length ?? 0}
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Posts Created</CardTitle>
+            </CardHeader>
+            <CardContent className="text-3xl">
+              {user.connects?.length ?? 0}
+            </CardContent>
+          </Card>
         </div>
       </section>
+      <Tabs className="mt-6">
+        <TabsList>
+          <TabsTrigger value="1">Contributions</TabsTrigger>
+          <TabsTrigger value="2">Buddies</TabsTrigger>
+          <TabsTrigger value="3">Others</TabsTrigger>
+        </TabsList>
+        <TabsContent value="1">
+          <section className="mt-3 w-full h-[200px] bg-secondary rounded-xl"></section>
+        </TabsContent>
+      </Tabs>
     </main>
   );
 }

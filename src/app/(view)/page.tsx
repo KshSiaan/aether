@@ -8,22 +8,22 @@ import Analytics from "./analytics";
 export default function Home() {
   return (
     <>
-      <header className="h-dvh w-dvw p-4 pt-20 overflow-visible">
+      <header className="h-[70dvh] lg:h-dvh w-dvw p-4 pt-20 overflow-visible">
         <section className="overflow-visible h-full w-full bg-gradient-to-br from-[#FB04FF] via-[#6C8FE9] to-[#FFFFFF] rounded-xl p-6 relative flex justify-center items-center flex-col">
-          <h1 className="text-7xl text-center font-black text-foreground/80">
+          <h1 className="text-3xl lg:text-7xl text-center font-black text-foreground/80">
             Connect with each of us <br />
             With your own touch
           </h1>
           <div className="flex justify-center items-center mt-12">
             <Button
-              className="rounded-full text-xl h-auto py-4 px-12"
+              className="rounded-full lg:text-xl h-auto py-4  lg:px-12"
               variant={"secondary"}
               size={"lg"}
             >
               <AnimatedShinyText>Open Aether</AnimatedShinyText>
             </Button>
           </div>
-          <div className="h-[300px]"></div>
+          <div className="h-[5dvh] lg:h-[300px]"></div>
           <ClientView />
         </section>
       </header>

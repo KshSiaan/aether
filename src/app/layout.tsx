@@ -65,20 +65,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${reem.className}`}>
-        <body className="overflow-x-hidden!" suppressHydrationWarning>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <TanstackProvider>
-              {children}
-              <Toaster />
-            </TanstackProvider>
-          </ThemeProvider>
-        </body>
+      <body
+        className={`overflow-x-hidden! ${reem.className}`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TanstackProvider>
+            {children}
+            <Toaster />
+          </TanstackProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
