@@ -3,6 +3,7 @@ import { howl } from "../utils"
 export const loginApi = async (body: { email: string, password: string }) => {
   return howl("/login", { method: "POST", body })
 }
+
 export const registerApi = async (body: {
     name: string;
     tag: string;
@@ -11,4 +12,8 @@ export const registerApi = async (body: {
     confirm: string;
 }) => {
   return howl("/register", { method: "POST", body })
+}
+
+export const meApi = async (token:string) => {
+  return howl("/me", { method: "GET",token })
 }

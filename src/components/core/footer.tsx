@@ -16,7 +16,7 @@ export default function Footer() {
             Aether
           </h4>
           <div className="flex gap-6">
-            <Button>Connect with Raven</Button>
+            <Button variant={"outline"}>Connect with Raven</Button>
           </div>
         </div>
 

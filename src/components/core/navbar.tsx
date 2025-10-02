@@ -11,8 +11,10 @@ import { SparklesText } from "../magicui/sparkles-text";
 import { ShimmerButton } from "../magicui/shimmer-button";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 export default function Navbar() {
   const { scrollY } = useScroll();
+  const [{ token }] = useCookies(["token"]);
   const scrollVelocity = useVelocity(scrollY);
   const velocitySpring = useSpring(scrollVelocity, {
     stiffness: 300,
@@ -58,10 +60,10 @@ export default function Navbar() {
 
       {/* Right section */}
       <div className="flex justify-end">
-        <Link href={"/login"}>
+        <Link href={token ? "/profile" : "/login"} suppressHydrationWarning>
           <ShimmerButton className="shadow-2xl">
             <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-              Join Now
+              {token ? "My Profile" : "Login"}
             </span>
           </ShimmerButton>
         </Link>

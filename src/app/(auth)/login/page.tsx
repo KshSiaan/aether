@@ -9,7 +9,7 @@ import { SparklesText } from "@/components/magicui/sparkles-text";
 import Link from "next/link";
 import { DiscordLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { DotPattern } from "@/components/magicui/dot-pattern";
-import { cn } from "@/lib/utils";
+import { cn, idk } from "@/lib/utils";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useMutation } from "@tanstack/react-query";
+import { loginApi } from "@/lib/api/auth";
+import { toast } from "sonner";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 // Zod schema for login
 const loginSchema = z.object({
@@ -34,6 +39,22 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Page() {
+  const [, setCookie] = useCookies(["token"]);
+  const navig = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: (body: LoginSchema) => {
+      return loginApi(body);
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      setCookie("token", res.token);
+      navig.push("/profile");
+      toast.success(res.message ?? "Successfully logged in");
+    },
+  });
   const { theme } = useTheme();
 
   const form = useForm<LoginSchema>({
@@ -45,7 +66,7 @@ export default function Page() {
   });
 
   function onSubmit(values: LoginSchema) {
-    console.log("Login Data:", values);
+    mutate(values);
   }
 
   return (
@@ -98,8 +119,8 @@ export default function Page() {
                     )}
                   />
 
-                  <Button type="submit" className="w-full">
-                    Sign In
+                  <Button type="submit" className="w-full" disabled={isPending}>
+                    {isPending ? "Verifying.." : "Sign In"}
                   </Button>
                 </form>
               </Form>

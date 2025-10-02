@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { extraConfig } from "@/lib/config";
 import { supabase } from "@/lib/db";
-
+import { extraConfig } from "@/lib/config";
+import * as jose from "jose"
 export async function POST(req: NextRequest) {
   const data: {
     name: string;
@@ -44,28 +44,45 @@ export async function POST(req: NextRequest) {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(data.password, saltRounds);
 
-  const {error} = await supabase.from("user").insert([{
-    name:data.name,
-    alias:data.tag,
-    email:data.email,
-    password:hashedPassword,
-    avatar_url:"/avatar/default.png",
-  }]);
+const { error, data: users } = await supabase
+  .from("user")
+  .insert([
+    {
+      name: data.name,
+      alias: data.tag,
+      email: data.email,
+      password: hashedPassword,
+      avatar_url: "/avatar/default.png",
+    },
+  ])
+  .select("uid");
+
 
   if (error) {
-      return NextResponse.json(
-    {
-      ok: false,
-      message:error.message,
-    },
-    { status }
-  );
+    return NextResponse.json(
+      { ok: false, message: error.message },
+      { status: 500 }
+    );
   }
-
+  const user = users?.[0];
   // You’d normally store hashedPassword in DB instead of sending it back
   message = `Account for ${data.tag} created successfully`;
   status = 200;
 
+    //token creation
+    const secret = new TextEncoder().encode(
+        extraConfig.token_secret,
+    )
+
+    const alg = 'HS256'
+
+    const jwt = await new jose.SignJWT({ uid: user?.uid })
+    .setProtectedHeader({ alg })
+    .setIssuedAt()
+    .setIssuer('user')
+    .setAudience('user')
+    .setExpirationTime('3d')
+    .sign(secret);
   return NextResponse.json(
     {
       ok: true,
@@ -74,6 +91,7 @@ export async function POST(req: NextRequest) {
         name: data.name,
         tag: data.tag,
       },
+      token:jwt
     },
     { status }
   );

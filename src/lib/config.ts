@@ -11,10 +11,12 @@ export const apiConfig = {
   baseUrl: base_api,
   isDevelopment: onDev,
 }; 
+
 export const dbConfig = {
   anon_key : process.env.NEXT_PUBLIC_ANON_KEY!,
   url:process.env.NEXT_PUBLIC_DB_URL!
 }
+
 export const extraConfig = {
   token_secret: process.env.NEXT_PUBLIC_JWTSECRET!
 }

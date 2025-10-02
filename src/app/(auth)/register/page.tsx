@@ -27,8 +27,9 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { registerApi } from "@/lib/api/auth";
-import { useRouter } from "next/router";
+
 import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 // Zod schema
 const registerSchema = z
@@ -49,8 +50,8 @@ type RegisterSchema = z.infer<typeof registerSchema>;
 export default function Page() {
   const { theme } = useTheme();
   const [, setCookie] = useCookies(["token"]);
-  // const navig = useRouter();
-  const { mutate } = useMutation({
+  const navig = useRouter();
+  const { mutate, isPending } = useMutation({
     mutationKey: ["register"],
     mutationFn: (body: RegisterSchema) => {
       return registerApi(body);
@@ -60,8 +61,8 @@ export default function Page() {
     },
     onSuccess: (res: idk) => {
       console.log(res);
-      // setCookie("token", res.token);
-      // navig.push("/profile");
+      setCookie("token", res.token);
+      navig.push("/profile");
       toast.success(res.message ?? "Successfully created account");
     },
   });
@@ -172,7 +173,7 @@ export default function Page() {
                   />
 
                   <Button type="submit" className="w-full">
-                    Register
+                    {isPending ? "Creating account" : "Register"}
                   </Button>
                 </form>
               </Form>
