@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SparklesIcon } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import React from "react";
 
@@ -20,6 +21,7 @@ interface Dataset {
 }
 
 export default function Page() {
+  const { theme } = useTheme();
   const dataSet: Dataset[] = [
     {
       title: "Applications",
@@ -44,10 +46,13 @@ export default function Page() {
   return (
     <div className="grid lg:grid-cols-3 gap-6 h-full w-full p-6">
       {dataSet.map((x) => (
-        <Link href={`features/${x.to}`} key={x.title}>
-          <MagicCard className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300">
+        <Link href={`features/${x.to}`} className="h-fit" key={x.title}>
+          <MagicCard
+            gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
+            className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300"
+          >
             {/* Flex wrapper inside MagicCard */}
-            <div className="w-full flex flex-col h-full aspect-video py-6">
+            <div className="w-full flex flex-col aspect-video py-6">
               <CardHeader>
                 <CardTitle>{x.title}</CardTitle>
                 <p className="text-slate-300 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">

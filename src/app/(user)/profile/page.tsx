@@ -45,8 +45,8 @@ export default function Page() {
 
   const user: User = data;
   return (
-    <main className="w-full p-6 mt-[64px]">
-      <section className="w-full h-[400px] bg-secondary border-b-12 border-background relative rounded-3xl p-6">
+    <main className="w-full p-6 px-0 lg:px-6 mt-[64px]">
+      <section className="w-full h-[400px] bg-secondary border-b-12 border-background relative rounded-b-3xl lg:rounded-3xl p-6">
         <div className="absolute h-full w-full overflow-hidden top-0 left-0">
           {user?.bio ? (
             user.bio
@@ -78,7 +78,7 @@ export default function Page() {
           </div>
         </div>
       </section>
-      <section className="w-full bg-secondary p-6 rounded-2xl pt-[120px] lg:pt-6">
+      <section className="w-full bg-secondary p-2 lg:p-6 rounded-2xl pt-[120px] lg:pt-6">
         <div className="">
           <h1 className="text-4xl font-bold">{user.alias}</h1>
           <p>
@@ -86,25 +86,27 @@ export default function Page() {
           </p>
         </div>
         <div className="flex w-full justify-end items-center gap-2 mt-6">
-          <Button variant={"outline"} asChild>
-            <Link href={"/profile/edit"}>Edit Profile</Link>
-          </Button>
-          <Button
-            variant={"destructive"}
-            onClick={() => {
-              try {
-                removeToken("token");
-                router.push("/login");
-                toast.success("Singed out successfully");
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-          >
-            Sign Out
-          </Button>
+          <div className="space-x-6">
+            <Button variant={"outline"} asChild>
+              <Link href={"/profile/edit"}>Edit Profile</Link>
+            </Button>
+            <Button
+              variant={"destructive"}
+              onClick={() => {
+                try {
+                  removeToken("token");
+                  router.push("/login");
+                  toast.success("Singed out successfully");
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
+              Sign Out
+            </Button>
+          </div>
         </div>
-        <div className="w-full grid pt-6 grid-cols-2 gap-6">
+        <div className="w-full grid pt-6 grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
           <Card>
             <CardHeader>
               <CardTitle>Contribution Amount</CardTitle>
@@ -139,13 +141,15 @@ export default function Page() {
           </Card>
         </div>
       </section>
-      <Tabs className="mt-6">
-        <TabsList>
-          <TabsTrigger value="1">Contributions</TabsTrigger>
-          <TabsTrigger value="2">Buddies</TabsTrigger>
-          <TabsTrigger value="3">Others</TabsTrigger>
-        </TabsList>
-        <TabsContent value="1">
+      <Tabs className="mt-6 lg:px-0">
+        <div className="w-fit lg:w-auto mx-auto lg:mx-0">
+          <TabsList>
+            <TabsTrigger value="1">Contributions</TabsTrigger>
+            <TabsTrigger value="2">Buddies</TabsTrigger>
+            <TabsTrigger value="3">Others</TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="1" className="">
           <section className="mt-3 w-full h-[200px] bg-secondary rounded-xl"></section>
         </TabsContent>
       </Tabs>

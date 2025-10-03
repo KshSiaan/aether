@@ -10,28 +10,33 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { dataSet } from "@/lib/dataset";
+import { useTheme } from "next-themes";
 
 import Link from "next/link";
 import React from "react";
 
 export default function Page() {
+  const { theme } = useTheme();
   return (
     <div className="grid grid-cols-3 gap-6 h-full w-full p-6">
       {dataSet.map((x) => (
         <Link
           href={
             x.internal
-              ? `application-explorer/${x.id}`
+              ? `https://snipit-iota.vercel.app`
               : x.link ?? "https://github.com/kshsiaan"
           }
           key={x.title}
         >
-          <MagicCard className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300">
+          <MagicCard
+            gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
+            className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300"
+          >
             {/* Flex wrapper inside MagicCard */}
             <div className="w-full flex flex-col h-full aspect-video py-6">
               <CardHeader>
                 <CardTitle>{x.title}</CardTitle>
-                <p className="text-slate-300 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
+                <p className="text-muted-foreground leading-relaxed text-sm group-hover:text-foreground transition-colors duration-300">
                   {x.description}
                 </p>
                 <div className=" space-x-2">

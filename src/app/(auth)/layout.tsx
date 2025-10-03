@@ -9,7 +9,6 @@ export default function RootLayout({
   return (
     <>
       <div className="overflow-hidden">
-
         <Navbar />
         <ReactLenis root>{children}</ReactLenis>
         <Footer />

@@ -23,7 +23,7 @@ export default function Home() {
               <AnimatedShinyText>Open Aether</AnimatedShinyText>
             </Button>
           </div>
-          <div className="h-[5dvh] lg:h-[300px]"></div>
+          <div className="h-[10dvh] lg:h-[300px]"></div>
           <ClientView />
         </section>
       </header>

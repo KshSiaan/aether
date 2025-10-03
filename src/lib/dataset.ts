@@ -18,6 +18,6 @@ export const dataSet: Dataset[] = [
     date: "2025-09-14",
     author: "Siaan",
     internal: false,
-    link: "",
+    link: "https://snipit-iota.vercel.app/",
   },
 ];

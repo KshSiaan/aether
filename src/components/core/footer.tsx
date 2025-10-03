@@ -20,9 +20,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 relative flex justify-between items-center text-xs text-muted  dark:!text-muted-foreground">
+        <div className="mt-6 relative flex flex-col gap-6 lg:flex-row justify-between items-center text-xs text-muted  dark:!text-muted-foreground">
           <span>&copy; 2025 Aether</span>
-          <div className="absolute inset-x-0 flex justify-center">
+          <div className="lg:absolute inset-x-0 flex justify-center">
             <Button
               size="sm"
               variant="link"
@@ -44,7 +44,7 @@ export default function Footer() {
               )}
             </Button>
           </div>
-          <span>— crafted beyond dimensions</span>
+          <span className="">— crafted beyond dimensions</span>
         </div>
 
         <AnimatePresence initial={false}>
@@ -57,7 +57,7 @@ export default function Footer() {
               className="overflow-hidden"
             >
               <Separator className="mt-4 bg-zinc-600!" />
-              <div className="mt-4 text-background dark:!text-muted-foreground w-full flex justify-between gap-4 items-center">
+              <div className="mt-4 text-background dark:!text-muted-foreground w-full flex flex-col lg:flex-row justify-between gap-4 items-center">
                 <div className="text-sm">Legal Pages:</div>
                 <div className="">
                   <Button

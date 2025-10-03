@@ -71,7 +71,7 @@ export default function Page() {
 
   return (
     <main className="h-screen justify-center items-center flex flex-col shadow-none! relative">
-      <div className="w-3xl h-fit flex flex-col justify-center items-center p-4">
+      <div className="lg:w-3xl h-fit flex flex-col justify-center items-center p-4">
         <SparklesText className="text-3xl! text-center mb-6" sparklesCount={2}>
           <Link href={"/"}>Aether</Link>
         </SparklesText>
