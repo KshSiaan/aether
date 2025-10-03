@@ -19,6 +19,7 @@ import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
+import Link from "next/link";
 // import { useRouter } from "next/navigation";
 import React from "react";
 import { useCookies } from "react-cookie";
@@ -53,14 +54,17 @@ export default function Page() {
   return (
     <main className="pt-18 p-4 pb-6 space-y-6">
       <div className="flex justify-center items-center mt-6">
-        <div className="size-[30dvw] relative">
+        <div className="size-[30dvw] lg:size-[200px] relative">
           <Avatar className="size-full bg-secondary z-10">
             <AvatarImage src={user.avatar_url ?? ""} />
             <AvatarFallback>RV</AvatarFallback>
           </Avatar>
           <div className="h-full w-full rounded-full flex items-center justify-center bg-background/80 opacity-0 hover:opacity-100 top-0 left-0 absolute z-30 transition-all">
-            <Button size={"icon"} variant={"ghost"}>
-              <EditIcon />
+            <Button size={"icon"} variant={"ghost"} asChild>
+              <Link href={"edit/avatar"}>
+                {" "}
+                <EditIcon />
+              </Link>
             </Button>
           </div>
         </div>
