@@ -65,7 +65,9 @@ export default function Navbar() {
           <Button variant={"link"} asChild>
             <Link href={"/origin"}>Origin</Link>
           </Button>
-          <Button variant={"link"}>Blogs</Button>
+          <Button variant={"link"} asChild>
+            <Link href={"/blog"}>Blogs</Link>
+          </Button>
           <Button variant={"link"} asChild>
             <Link href={"/settings"}>Settings</Link>
           </Button>
@@ -85,7 +87,7 @@ export default function Navbar() {
           </ShimmerButton>
         </Link>
         <Sheet>
-          <SheetTrigger asChild>
+          <SheetTrigger className="lg:hidden" asChild>
             <Button variant={"secondary"}>
               <MenuIcon />
             </Button>

@@ -1,0 +1,60 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+export default function BlogNaver() {
+  const path = usePathname();
+  const navig = useRouter();
+  return (
+    <section className="bg-secondary p-6 rounded-lg w-full flex justify-between items-center overflow-hidden">
+      <AnimatePresence mode="wait">
+        {path !== "/blog" && (
+          <motion.div
+            key="back-btn"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25 }}
+          >
+            <Button
+              onClick={() => {
+                navig.back();
+              }}
+            >
+              <ArrowLeft className="mr-1" />
+              Go back
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        key="center-btns"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+        className="space-x-2"
+      >
+        <Button variant="link">Recent Blogs</Button>
+        <Button variant="link">Saved Blogs</Button>
+      </motion.div>
+
+      <AnimatePresence mode="wait">
+        {path === "/blog" && (
+          <motion.div
+            key="write-btn"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.25 }}
+          >
+            <Button>Write a Blog</Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
