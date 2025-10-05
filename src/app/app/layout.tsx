@@ -17,6 +17,7 @@ import {
   HouseIcon,
   Laptop2Icon,
   MenuIcon,
+  NewspaperIcon,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -30,6 +31,9 @@ export default function Layout({
         <Link href={"/"}>
           <HouseIcon className="mr-2 h-4 w-4" /> Home
         </Link>
+      </Button>
+      <Button className="w-full" variant={"outline"}>
+        <NewspaperIcon className="mr-2 h-4 w-4" /> Feed
       </Button>
       <Button className="w-full">
         <CodeXmlIcon className="mr-2 h-4 w-4" /> Featured
