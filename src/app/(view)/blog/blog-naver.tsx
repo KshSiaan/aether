@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 export default function BlogNaver() {
   const path = usePathname();
@@ -52,7 +53,9 @@ export default function BlogNaver() {
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.25 }}
             >
-              <Button>Write a Blog</Button>
+              <Button asChild>
+                <Link href={"/blog/write"}>Write a Blog</Link>
+              </Button>
             </motion.div>
           )}
         </AnimatePresence>
