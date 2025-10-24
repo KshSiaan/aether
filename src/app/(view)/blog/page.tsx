@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,10 +26,22 @@ export default function Page() {
               className="w-full relative bg-background rounded-lg bg-cover bg-center"
               key={i}
             >
+              <CardHeader className="flex items-center gap-3">
+                <Avatar className="size-10">
+                  <AvatarImage src={"/avatar/default.png"} />
+                  <AvatarFallback>RV</AvatarFallback>
+                </Avatar>
+                <p className="text-sm">User name</p>
+              </CardHeader>
               <CardHeader className="border-b">
-                <CardTitle>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </CardTitle>
+                <div className="w-full flex justify-between items-center">
+                  <CardTitle className="py-0">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    Posted at: {new Date().toDateString()}
+                  </p>
+                </div>
               </CardHeader>
               <CardContent>
                 <CardDescription className="mt-2 text-sm">
