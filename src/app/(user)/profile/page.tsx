@@ -1,20 +1,30 @@
 "use client";
 import NotFound from "@/app/not-found";
+import PostBlock from "@/components/core/post";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { meApi } from "@/lib/api/auth";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
+import { Share1Icon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
-import { BananaIcon } from "lucide-react";
+import { BananaIcon, HeartIcon, MessageCircleQuestionIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
+import PostSect from "./post-sect";
 
 export default function Page() {
   const [{ token }, , removeToken] = useCookies(["token"]);
@@ -141,16 +151,24 @@ export default function Page() {
           </Card>
         </div>
       </section>
-      <Tabs className="mt-6 lg:px-0">
+      <Tabs className="mt-6 lg:px-0" defaultValue="0">
         <div className="w-fit lg:w-auto mx-auto lg:mx-0">
           <TabsList>
+            <TabsTrigger value="0">My Post</TabsTrigger>
             <TabsTrigger value="1">Contributions</TabsTrigger>
             <TabsTrigger value="2">Buddies</TabsTrigger>
             <TabsTrigger value="3">Others</TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="1" className="">
-          <section className="mt-3 w-full h-[200px] bg-secondary rounded-xl"></section>
+        <TabsContent value="0" className="">
+          <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
+            <div className="w-full flex justify-end items-center">
+              <Button asChild>
+                <Link href={"/profile/posts/create"}>Create a Post</Link>
+              </Button>
+            </div>
+            <PostSect />
+          </section>
         </TabsContent>
       </Tabs>
     </main>

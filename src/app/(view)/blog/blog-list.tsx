@@ -12,7 +12,7 @@ import {
 import { getBlogApi } from "@/lib/api/blog";
 import { idk } from "@/lib/utils";
 import { Share1Icon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { BookmarkIcon, Loader2Icon } from "lucide-react";
 import React from "react";
 import DOMPurify from "dompurify";
