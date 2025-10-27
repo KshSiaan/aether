@@ -43,8 +43,8 @@ export default function BlogList() {
         role: string;
         alias: string;
         email: string;
-        gender: any;
-        connects: any;
+        gender: idk;
+        connects: idk;
         original: boolean;
         avatar_url: string;
         prefer_alias: boolean;

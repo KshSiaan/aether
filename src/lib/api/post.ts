@@ -10,9 +10,9 @@ export const createPostApi = async ({
   return howl("/post", { method: "POST", body, token });
 };
 
-export const getBlogApi = async () => {
+export const getPostsApi = async () => {
   return howl("/post");
 };
-export const getSpecificBlogApi = async ({id}:{id:string}) => {
+export const getSpecificPostApi = async ({ id }: { id: string }) => {
   return howl(`/post?from=${id}`);
 };

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { SerializedEditorState } from "lexical";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBlogApi } from "@/lib/api/blog";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
@@ -44,6 +44,7 @@ const initialValue = {
 
 export default function Page() {
   const navig = useRouter();
+  const qcl = useQueryClient();
   const [{ token }] = useCookies(["token"]);
   const [editorState, setEditorState] =
     useState<SerializedEditorState>(initialValue);
@@ -59,13 +60,14 @@ export default function Page() {
     onSuccess: (res: idk) => {
       toast.error(res.message);
       console.log(res);
+      qcl.invalidateQueries({ queryKey: ["posts"] });
       navig.push("/profile/posts");
     },
   });
 
   return (
     <section className="p-6 mt-20">
-      <h1 className="text-4xl text-center">What's in your mind?</h1>
+      <h1 className="text-4xl text-center">What&apos;s in your mind?</h1>
       <div className="mt-6 w-full mx-auto space-y-6">
         <Editor
           editorSerializedState={editorState}

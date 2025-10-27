@@ -10,35 +10,47 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { HeartIcon, MessageCircleQuestionIcon } from "lucide-react";
 import { Share1Icon } from "@radix-ui/react-icons";
-
-export default function PostBlock() {
+import { idk } from "@/lib/utils";
+import DOMPurify from "dompurify";
+export default function PostBlock({
+  data,
+}: {
+  data: {
+    id: number;
+    user_id: number;
+    body: string;
+    created_at: string;
+    user: {
+      name: string;
+      role: string;
+      alias: string;
+      email: string;
+      gender: idk;
+      connects: idk;
+      original: boolean;
+      avatar_url: string;
+      prefer_alias: boolean;
+    };
+  };
+}) {
   return (
-    <Card
-      className="w-full relative bg-background rounded-lg bg-cover bg-center"
-      // key={x.id}
-    >
+    <Card className="w-full relative bg-background rounded-lg bg-cover bg-center">
       <CardHeader className="flex items-center gap-3">
         <Avatar className="size-10">
-          <AvatarImage src={"/avatar/default.png"} />
+          <AvatarImage src={data.user.avatar_url ?? "/avatar/default.png"} />
           <AvatarFallback>RV</AvatarFallback>
         </Avatar>
         <p className="text-sm">
-          {/* {x.user.prefer_alias ? x.user.alias : x.user.name} */}
-          User name
+          {data.user.prefer_alias ? data.user.alias : data.user.name}
         </p>
       </CardHeader>
       <CardContent>
         <CardDescription
           className="mt-2 text-sm"
-          // dangerouslySetInnerHTML={{
-          //   __html: DOMPurify.sanitize(x.body),
-          // }}
-        >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda
-          quidem, exercitationem maiores fuga sed libero inventore deserunt
-          aliquam quam nihil animi, sit ea veniam reiciendis illo soluta
-          explicabo sapiente impedit?
-        </CardDescription>
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(data.body),
+          }}
+        />
       </CardContent>
       <CardFooter className="border-t flex justify-between items-center">
         <div className="">
