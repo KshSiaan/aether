@@ -43,8 +43,8 @@ export default function BlogList() {
         role: string;
         alias: string;
         email: string;
-        gender: idk;
-        connects: idk;
+        gender: any;
+        connects: any;
         original: boolean;
         avatar_url: string;
         prefer_alias: boolean;
@@ -107,7 +107,6 @@ export default function BlogList() {
                     .then(() => console.log("Shared successfully"))
                     .catch((err) => console.error("Error sharing:", err));
                 } else {
-                  // Fallback if the browser doesn't support native share
                   alert("Your browser does not support sharing this link.");
                 }
               }}

@@ -5,11 +5,15 @@ import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import React from "react";
+import { useCookies } from "react-cookie";
 
 export default function PostList() {
+  const [{ token }] = useCookies(["token"]);
   const { data, isPending }: idk = useQuery({
     queryKey: ["posts"],
-    queryFn: getPostsApi,
+    queryFn: () => {
+      return getPostsApi({ token });
+    },
   });
   if (isPending) {
     return (
@@ -25,6 +29,7 @@ export default function PostList() {
       user_id: number;
       body: string;
       created_at: string;
+      isLiked: boolean;
       user: {
         name: string;
         role: string;

@@ -168,6 +168,11 @@ export default function Page() {
               </Button>
             </div>
             <PostSect />
+            <div className="w-full grid align-middle">
+              <Button variant={"link"} className="mx-auto" asChild>
+                <Link href={"/profile/posts"}>View all my posts</Link>
+              </Button>
+            </div>
           </section>
         </TabsContent>
       </Tabs>

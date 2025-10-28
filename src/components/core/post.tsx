@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -12,6 +13,11 @@ import { HeartIcon, MessageCircleQuestionIcon } from "lucide-react";
 import { Share1Icon } from "@radix-ui/react-icons";
 import { idk } from "@/lib/utils";
 import DOMPurify from "dompurify";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { togglePostHeart } from "@/lib/api/post";
+import { useCookies } from "react-cookie";
+import { useTheme } from "next-themes";
 export default function PostBlock({
   data,
 }: {
@@ -20,6 +26,7 @@ export default function PostBlock({
     user_id: number;
     body: string;
     created_at: string;
+    isLiked: boolean;
     user: {
       name: string;
       role: string;
@@ -33,22 +40,39 @@ export default function PostBlock({
     };
   };
 }) {
+  const [{ token }] = useCookies(["token"]);
+  const { resolvedTheme } = useTheme();
+  const qcl = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["like_dislike"],
+    mutationFn: () => {
+      return togglePostHeart({ id: data.id, token });
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      qcl.invalidateQueries({ queryKey: ["posts"] });
+      qcl.invalidateQueries({ queryKey: ["post_limited"] });
+      toast.success(res.message ?? "Successful");
+    },
+  });
   return (
     <Card className="w-full relative bg-background rounded-lg bg-cover bg-center">
       <CardHeader className="flex items-center gap-3">
         <Avatar className="size-10">
-          <AvatarImage src={data.user.avatar_url ?? "/avatar/default.png"} />
+          <AvatarImage src={data?.user.avatar_url ?? "/avatar/default.png"} />
           <AvatarFallback>RV</AvatarFallback>
         </Avatar>
         <p className="text-sm">
-          {data.user.prefer_alias ? data.user.alias : data.user.name}
+          {data?.user.prefer_alias ? data?.user.alias : data?.user.name}
         </p>
       </CardHeader>
       <CardContent>
         <CardDescription
           className="mt-2 text-sm"
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(data.body),
+            __html: DOMPurify.sanitize(data?.body),
           }}
         />
       </CardContent>
@@ -57,9 +81,24 @@ export default function PostBlock({
           {/* <Button variant={"outline"} asChild>
                     <Link href={`/blog/${x.id}`}>Read this blog</Link>
                   </Button> */}
-          <Button variant={"ghost"} size={"icon"}>
-            <HeartIcon />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => mutate()}
+            disabled={isPending}
+          >
+            <HeartIcon
+              fill={data.isLiked ? "red" : "none"}
+              stroke={
+                data.isLiked
+                  ? "none"
+                  : resolvedTheme === "dark"
+                  ? "#ffffff"
+                  : "#191919"
+              }
+            />
           </Button>
+
           <Button variant={"ghost"} size={"icon"}>
             <MessageCircleQuestionIcon />
           </Button>
