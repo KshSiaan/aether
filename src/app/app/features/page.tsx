@@ -26,7 +26,7 @@ export default function Page() {
     {
       title: "Applications",
       description: "Here you can explore some helpful tools",
-      node: 0,
+      node: 1,
       to: "application",
     },
     {

@@ -1,3 +1,4 @@
+import NavigContent from "@/components/extra/navig-content";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -7,15 +8,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
   CodeXmlIcon,
   ConstructionIcon,
+  DramaIcon,
   HouseIcon,
-  Laptop2Icon,
   MenuIcon,
   NewspaperIcon,
 } from "lucide-react";
@@ -25,25 +21,6 @@ import React from "react";
 export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const NavContent = () => (
-    <div className="space-y-4">
-      <Button className="w-full" variant={"outline"} asChild>
-        <Link href={"/"}>
-          <HouseIcon className="mr-2 h-4 w-4" /> Home
-        </Link>
-      </Button>
-      <Button className="w-full" variant={"outline"}>
-        <NewspaperIcon className="mr-2 h-4 w-4" /> Feed
-      </Button>
-      <Button className="w-full">
-        <CodeXmlIcon className="mr-2 h-4 w-4" /> Featured
-      </Button>
-      <Button className="w-full" variant={"outline"} disabled>
-        <Laptop2Icon className="mr-2 h-4 w-4" /> Contact Developer
-      </Button>
-    </div>
-  );
-
   const FriendsPanel = () => (
     <div className="space-y-4">
       <h4 className="text-xl font-semibold">Friends</h4>
@@ -75,7 +52,7 @@ export default function Layout({
                   <SheetTitle></SheetTitle>
                 </SheetHeader>
                 <nav className="p-6">
-                  <NavContent />
+                  <NavigContent />
                 </nav>
               </SheetContent>
             </Sheet>
@@ -107,7 +84,7 @@ export default function Layout({
       {/* Desktop Layout */}
       <div className="hidden lg:grid lg:grid-cols-[240px_1fr_280px] w-full p-6 min-h-screen gap-6">
         <aside className="border rounded-lg p-4">
-          <NavContent />
+          <NavigContent />
         </aside>
         <main className="h-full border rounded-lg bg-background">
           {children}

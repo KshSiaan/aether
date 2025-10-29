@@ -50,11 +50,11 @@ export async function GET(request: NextRequest) {
   // Normalize data array
   const posts = Array.isArray(dbData) ? dbData : [dbData];
 
-  const updatedDataset = posts.map(post => ({
-    ...post,
-    isLiked: uid ? post.hearts.includes(uid) : false,
-  }));
-
+const updatedDataset = posts.map(post => ({
+  ...post,
+  hearts: Array.isArray(post.hearts) ? post.hearts : [],
+  isLiked: uid ? (Array.isArray(post.hearts) && post.hearts.includes(uid)) : false,
+}));
   // If single object, return as object, else array
   const responseData = id ? updatedDataset[0] : updatedDataset;
 

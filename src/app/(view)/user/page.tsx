@@ -3,39 +3,31 @@ import NotFound from "@/app/not-found";
 import PostBlock from "@/components/core/post";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { meApi } from "@/lib/api/auth";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
-
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { BananaIcon, HeartIcon, MessageCircleQuestionIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { BananaIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import React from "react";
-import { useCookies } from "react-cookie";
-import { toast } from "sonner";
-import PostSect from "./post-sect";
+import { getProfileApi } from "@/lib/api/user";
 
 export default function Page() {
-  const [{ token }, , removeToken] = useCookies(["token"]);
-  const qcl = useQueryClient();
-  const router = useRouter();
+  const id: string | null = useSearchParams().get("id");
+
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["me"],
+    queryKey: ["user"],
     queryFn: (): idk => {
-      return meApi(token);
+      return getProfileApi({ id: id ?? "" });
     },
+    enabled: !!id,
   });
+  if (!id) {
+    return notFound();
+  }
   if (isPending) {
     return (
       <div className=" pt-24! p-6 space-y-6">
@@ -96,7 +88,7 @@ export default function Page() {
             <span className="text-muted-foreground">aka</span> ( {user.name} )
           </p>
         </div>
-        <div className="flex w-full justify-end items-center gap-2 mt-6">
+        {/* <div className="flex w-full justify-end items-center gap-2 mt-6">
           <div className="space-x-6">
             <Button variant={"outline"} asChild>
               <Link href={"/profile/edit"}>Edit Profile</Link>
@@ -116,7 +108,7 @@ export default function Page() {
               Sign Out
             </Button>
           </div>
-        </div>
+        </div> */}
         <div className="w-full grid pt-6 grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
           <Card>
             <CardHeader>
@@ -155,23 +147,17 @@ export default function Page() {
       <Tabs className="mt-6 lg:px-0" defaultValue="0">
         <div className="w-fit lg:w-auto mx-auto lg:mx-0">
           <TabsList>
-            <TabsTrigger value="0">My Post</TabsTrigger>
+            <TabsTrigger value="0">Posts</TabsTrigger>
             <TabsTrigger value="1">Contributions</TabsTrigger>
-            <TabsTrigger value="2">Buddies</TabsTrigger>
             <TabsTrigger value="3">Others</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="0" className="">
           <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
-            <div className="w-full flex justify-end items-center">
-              <Button asChild>
-                <Link href={"/profile/posts/create"}>Create a Post</Link>
-              </Button>
-            </div>
-            <PostSect />
+            {/* <PostSect /> */}
             <div className="w-full grid align-middle">
               <Button variant={"link"} className="mx-auto" asChild>
-                <Link href={"/profile/posts"}>View all my posts</Link>
+                <Link href={"/profile/posts"}>View all posts</Link>
               </Button>
             </div>
           </section>
