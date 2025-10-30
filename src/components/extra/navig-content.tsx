@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function NavigContent() {
   const navItems = [
     { name: "Home", href: "/", icon: HouseIcon },
-    { name: "Feed", href: "/feed", icon: NewspaperIcon },
+    { name: "Feed", href: "/app/feed", icon: NewspaperIcon },
     { name: "Featured", href: "/app/features", icon: CodeXmlIcon },
     { name: "Spirits", href: "/app/features/spirits", icon: DramaIcon },
   ];

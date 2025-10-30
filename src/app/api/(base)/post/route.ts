@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   if (!authHeader) {
     return NextResponse.json(
-      { message: "No authorization header" },
+      { message: "You're not logged in" },
       { status: 401 }
     );
   }
@@ -150,7 +150,7 @@ export async function PATCH(req: NextRequest) {
   if (!id) return NextResponse.json({ message: "Missing post ID" }, { status: 400 });
 
   const authHeader = req.headers.get("Authorization");
-  if (!authHeader) return NextResponse.json({ message: "No authorization header" }, { status: 401 });
+  if (!authHeader) return NextResponse.json({ message: "Please log in to interact with posts" }, { status: 401 });
 
   const token = authHeader.split(" ")[1];
   if (!token) return NextResponse.json({ message: "Invalid token format" }, { status: 401 });

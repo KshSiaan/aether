@@ -13,7 +13,7 @@ const cards = [
     className: "lg:col-span-2",
     Icon: LayoutDashboardIcon,
     description: "Tools built for minds that build differently.",
-    href: "/",
+    href: "/app/features",
     cta: "Try now",
   },
   {
@@ -21,7 +21,7 @@ const cards = [
     className: "lg:col-span-4",
     Icon: OrigamiIcon,
     description: "Where ideas take form and function.",
-    href: "/",
+    href: "/origin",
     cta: "Learn more",
   },
   {
@@ -29,7 +29,7 @@ const cards = [
     className: "lg:col-span-4",
     Icon: BookHeartIcon,
     description: "Thoughts from builders, for builders.",
-    href: "/",
+    href: "/blog",
     cta: "Read blogs",
   },
   {
@@ -37,7 +37,7 @@ const cards = [
     className: "lg:col-span-2",
     Icon: KeyIcon,
     description: "Not a platform. A creator’s realm.",
-    href: "/",
+    href: "/login",
     cta: "Join in",
   },
 ];

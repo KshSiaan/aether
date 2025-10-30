@@ -78,9 +78,6 @@ export default function PostBlock({
       </CardContent>
       <CardFooter className="border-t flex justify-between items-center">
         <div className="">
-          {/* <Button variant={"outline"} asChild>
-                    <Link href={`/blog/${x.id}`}>Read this blog</Link>
-                  </Button> */}
           <Button
             variant="ghost"
             size="icon"
@@ -99,7 +96,13 @@ export default function PostBlock({
             />
           </Button>
 
-          <Button variant={"ghost"} size={"icon"}>
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            onClick={() => {
+              toast.info("This feature is currently being worked on");
+            }}
+          >
             <MessageCircleQuestionIcon />
           </Button>
         </div>

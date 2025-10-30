@@ -5,6 +5,10 @@ import { User } from "@/lib/types/user";
 import Link from "next/link";
 import React from "react";
 
+interface SpiritType extends User {
+  post_count: number;
+}
+
 export default async function Spirits() {
   const call = await fetch(`${apiConfig.baseUrl}/users`);
   const res = await call.json();
@@ -13,7 +17,7 @@ export default async function Spirits() {
     return NotFound();
   }
   console.log(res);
-  return res.data.map((x: User) => (
+  return res.data.map((x: SpiritType) => (
     <Link href={`/user?id=${x.uid}`} key={x.uid}>
       <div className="w-full border cursor-target hover:bg-secondary/30">
         <div className="w-full grid grid-cols-2 gap-4 p-4">
@@ -33,7 +37,7 @@ export default async function Spirits() {
           </div>
           <div className="w-full aspect-square flex flex-col items-center justify-center">
             <p className="text-xs text-muted-foreground">Posts</p>
-            <p>N/A</p>
+            <p>{x.post_count ?? 0}</p>
           </div>
           <div className="w-full aspect-square flex flex-col items-center justify-center">
             <p className="text-xs text-muted-foreground">Contributions</p>
