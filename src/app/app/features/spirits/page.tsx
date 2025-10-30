@@ -10,11 +10,11 @@ import { Loader2Icon } from "lucide-react";
 export default function Page() {
   return (
     <main className="p-4 px-6 h-full overflow-y-auto">
-      <div className="w-full h-full grid grid-cols-4 gap-6 items-start">
+      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
         <Suspense
           fallback={
             <div
-              className={`flex justify-center items-center h-full mx-auto col-span-4`}
+              className={`flex justify-center items-center h-full mx-auto col-span-1 md:col-span-2 lg:col-span-4`}
             >
               <Loader2Icon className={`animate-spin`} />
             </div>

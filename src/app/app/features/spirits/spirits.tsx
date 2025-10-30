@@ -20,12 +20,14 @@ export default function Spirits() {
   }
   if (isPending) {
     return (
-      <div className={`flex justify-center items-center h-24 mx-auto`}>
+      <div
+        className={`flex justify-center items-center h-24 mx-auto col-span-4`}
+      >
         <Loader2Icon className={`animate-spin`} />
       </div>
     );
   }
-  return data.data.map((x: SpiritType) => (
+  return data?.data?.map((x: SpiritType) => (
     <Link href={`/user?id=${x.uid}`} key={x.uid}>
       <div className="w-full border cursor-target hover:bg-secondary/30">
         <div className="w-full grid grid-cols-2 gap-4 p-4">
