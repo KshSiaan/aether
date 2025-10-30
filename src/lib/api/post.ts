@@ -13,6 +13,9 @@ export const createPostApi = async ({
 export const getPostsApi = async ({token}:{token?:string}) => {
   return howl("/post",{token});
 };
+export const getPostsFromApi = async ({token,id}:{token?:string,id:string}) => {
+  return howl(`/postOfUser?from=${id}`,{token});
+};
 
 export const getPostsLimitedApi = async ({token}:{token?:string}) => {
   return howl("/post?limit=6",{token});

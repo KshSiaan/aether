@@ -40,8 +40,12 @@ export default function BlogNaver() {
           transition={{ duration: 0.25 }}
           className="space-x-2"
         >
-          <Button variant="link">Recent Blogs</Button>
-          <Button variant="link">Saved Blogs</Button>
+          <Button variant="link">
+            <Link href={"/blog"}>Recent Blogs</Link>
+          </Button>
+          <Button variant="link" asChild>
+            <Link href={"/blog/saved"}>Saved Blogs</Link>
+          </Button>
         </motion.div>
 
         <AnimatePresence mode="wait">

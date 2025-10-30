@@ -9,11 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getBlogApi, toggleBookmarkApi } from "@/lib/api/blog";
+import { getBlogApi, getSavedBlogApi, toggleBookmarkApi } from "@/lib/api/blog";
 import { idk } from "@/lib/utils";
 import { Share1Icon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BookmarkIcon, CircleXIcon, Loader2Icon } from "lucide-react";
+import {
+  BookmarkIcon,
+  CircleXIcon,
+  InboxIcon,
+  Loader2Icon,
+} from "lucide-react";
 import React from "react";
 import DOMPurify from "dompurify";
 import Link from "next/link";
@@ -29,8 +34,10 @@ export default function BlogList() {
   const { resolvedTheme } = useTheme();
 
   const { data, isPending }: idk = useQuery({
-    queryKey: ["blogs"],
-    queryFn: getBlogApi,
+    queryKey: ["saved_blogs"],
+    queryFn: () => {
+      return getSavedBlogApi({ token });
+    },
   });
 
   const { data: me }: idk = useQuery({
@@ -78,6 +85,14 @@ export default function BlogList() {
     return (
       <div className="flex justify-center items-center h-24 mx-auto">
         <Loader2Icon className="animate-spin" />
+      </div>
+    );
+  }
+  if (data?.data?.length === 0) {
+    return (
+      <div className="w-full min-h-[50dvh] h-full  flex flex-col gap-6 justify-center items-center">
+        <InboxIcon />
+        No blog has been bookmarked
       </div>
     );
   }

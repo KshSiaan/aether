@@ -7,13 +7,14 @@ import { notFound } from "next/navigation";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id?: string }>;
 }) {
   const store = await params;
 
-  if (!store.id) {
+  if (!store.id || isNaN(parseInt(store.id))) {
     return notFound();
   }
+
   return (
     <main className="pt-20! p-6 lg:px-[10%]">
       <Suspense
@@ -23,7 +24,7 @@ export default async function Page({
           </div>
         }
       >
-        <Blog id={store.id} />
+        <Blog id={store?.id} />
       </Suspense>
     </main>
   );

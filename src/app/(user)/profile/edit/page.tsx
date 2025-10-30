@@ -18,7 +18,7 @@ import { meApi } from "@/lib/api/auth";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { EditIcon } from "lucide-react";
+import { ConstructionIcon, EditIcon } from "lucide-react";
 import Link from "next/link";
 // import { useRouter } from "next/navigation";
 import React from "react";
@@ -60,16 +60,35 @@ export default function Page() {
             <AvatarFallback>RV</AvatarFallback>
           </Avatar>
           <div className="h-full w-full rounded-full flex items-center justify-center bg-background/80 opacity-0 hover:opacity-100 top-0 left-0 absolute z-30 transition-all">
-            <Button size={"icon"} variant={"ghost"} asChild>
+            <Button
+              size={"icon"}
+              className="w-full h-full rounded-full"
+              variant={"ghost"}
+              asChild
+            >
               <Link href={"edit/avatar"}>
-                {" "}
                 <EditIcon />
               </Link>
             </Button>
           </div>
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="flex items-center justify-center">
+        <Button asChild>
+          <Link href={"edit/avatar"}>Edit Avatar</Link>
+        </Button>
+      </div>
+      <h4 className="text-xl font-semibold mt-12">Edit Profile</h4>
+      <div className="space-y-4 flex justify-center items-center">
+        <div className="w-full rounded-lg border bg-muted/30 p-6 text-sm text-muted-foreground flex flex-col justify-center items-center gap-3">
+          <ConstructionIcon className="h-8 w-8" />
+          <p className="text-center">This feature is under development..</p>
+          <Button variant={"link"} asChild className="h-auto p-0">
+            <Link href={"/contact"}>want to help??</Link>
+          </Button>
+        </div>
+      </div>
+      <div className="space-y-4 hidden">
         <Label>Name:</Label>
         <Input />
         <Label>Alias:</Label>

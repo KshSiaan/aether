@@ -57,6 +57,7 @@ export default function PostBlock({
       toast.success(res.message ?? "Successful");
     },
   });
+
   return (
     <Card className="w-full relative bg-background rounded-lg bg-cover bg-center">
       <CardHeader className="flex items-center gap-3">

@@ -1,18 +1,18 @@
 "use client";
 import PostBlock from "@/components/core/post";
-import { getPostsLimitedApi } from "@/lib/api/post";
+import { getPostsFromApi, getPostsLimitedApi } from "@/lib/api/post";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import React from "react";
 import { useCookies } from "react-cookie";
 
-export default function PostSect() {
+export default function PostSect({ id }: { id: string }) {
   const [{ token }] = useCookies(["token"]);
   const { data, isPending } = useQuery({
-    queryKey: ["post_limited"],
+    queryKey: ["user_post_limited", id],
     queryFn: (): idk => {
-      return getPostsLimitedApi({ token });
+      return getPostsFromApi({ id, token });
     },
   });
   if (isPending) {
@@ -22,5 +22,7 @@ export default function PostSect() {
       </div>
     );
   }
+  console.log(data);
+
   return data?.data?.map((x: idk) => <PostBlock key={x.id} data={x} />);
 }

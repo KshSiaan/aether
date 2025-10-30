@@ -14,6 +14,7 @@ import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
 import React from "react";
 import { getProfileApi } from "@/lib/api/user";
+import PostSect from "./post-sect";
 
 export default function Page() {
   const id: string | null = useSearchParams().get("id");
@@ -154,7 +155,7 @@ export default function Page() {
         </div>
         <TabsContent value="0" className="">
           <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
-            {/* <PostSect /> */}
+            <PostSect id={id} />
             <div className="w-full grid align-middle">
               <Button variant={"link"} className="mx-auto" asChild>
                 <Link href={"/profile/posts"}>View all posts</Link>
