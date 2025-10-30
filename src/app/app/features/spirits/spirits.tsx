@@ -16,6 +16,7 @@ export default async function Spirits() {
   if (!call.ok) {
     return NotFound();
   }
+  //
   console.log(res);
   return res.data.map((x: SpiritType) => (
     <Link href={`/user?id=${x.uid}`} key={x.uid}>
