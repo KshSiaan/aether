@@ -10,8 +10,7 @@ export default function RootLayout({
     <>
       <div className="overflow-hidden">
         <Navbar />
-        {/* <ReactLenis root></ReactLenis> */}
-        {children}
+        <ReactLenis root>{children}</ReactLenis>
         <Footer />
       </div>
     </>
