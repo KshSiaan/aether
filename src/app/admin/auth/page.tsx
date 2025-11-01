@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/lib/api/auth";
 import { toast } from "sonner";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 // Zod schema for login
 const loginSchema = z.object({
@@ -34,6 +36,8 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Page() {
+  const [{ token }, setCookie] = useCookies(["token"]);
+  const navig = useRouter();
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -50,11 +54,12 @@ export default function Page() {
       toast.error(err.message ?? "Failed to complete this request");
     },
     onSuccess: (res: idk) => {
-      toast.success(res.message ?? "Success!");
+      setCookie("token", res.token);
+      navig.push("/admin/dashboard");
+      toast.success(res.message ?? "Successfully logged in");
     },
   });
   function onSubmit(values: LoginSchema) {
-    console.log("Login Data:", values);
     mutate(values);
   }
 

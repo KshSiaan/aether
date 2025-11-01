@@ -17,7 +17,7 @@ import { meApi } from "@/lib/api/auth";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { BananaIcon, HeartIcon, MessageCircleQuestionIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,7 +28,7 @@ import PostSect from "./post-sect";
 
 export default function Page() {
   const [{ token }, , removeToken] = useCookies(["token"]);
-  const qcl = useQueryClient();
+
   const router = useRouter();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["me"],
