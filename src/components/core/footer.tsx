@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Footer() {
   const [extended, setExtended] = useState(false);
@@ -15,8 +16,13 @@ export default function Footer() {
           <h4 className="text-xl font-black text-background  dark:!text-foreground">
             Aether
           </h4>
-          <div className="flex gap-6">
-            <Button variant={"outline"}>Connect with Raven</Button>
+          <div className="flex gap-4">
+            <Button variant={"outline"} asChild>
+              <Link href={"/feedback"}>Post a Feedback</Link>
+            </Button>
+            <Button variant={"outline"} asChild>
+              <Link href={"/raven"}>Connect with Raven</Link>
+            </Button>
           </div>
         </div>
 

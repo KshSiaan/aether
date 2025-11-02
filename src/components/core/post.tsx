@@ -26,6 +26,7 @@ export default function PostBlock({
     user_id: number;
     body: string;
     created_at: string;
+    hearts: number[];
     isLiked: boolean;
     user: {
       name: string;
@@ -95,6 +96,7 @@ export default function PostBlock({
                   : "#191919"
               }
             />
+            {data?.hearts?.length}
           </Button>
 
           <Button

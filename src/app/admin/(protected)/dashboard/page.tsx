@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DeleteIcon, EyeIcon } from "lucide-react";
-import { headers } from "next/headers";
 import React from "react";
 
 export default async function Page() {

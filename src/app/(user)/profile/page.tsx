@@ -25,6 +25,7 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import PostSect from "./post-sect";
+import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 
 export default function Page() {
   const [{ token }, , removeToken] = useCookies(["token"]);
@@ -58,9 +59,9 @@ export default function Page() {
   return (
     <main className="w-full p-6 px-0 lg:px-6 mt-[64px]">
       <section className="w-full h-[400px] bg-secondary border-b-12 border-background relative rounded-b-3xl lg:rounded-3xl p-6">
-        <div className="absolute h-full w-full overflow-hidden top-0 left-0">
+        <div className="absolute h-full w-full overflow-hidden top-0 left-0 p-6 flex justify-center items-center">
           {user?.bio ? (
-            user.bio
+            <AnimatedShinyText>{user.bio}</AnimatedShinyText>
           ) : (
             <div className="h-full w-full flex flex-col justify-center items-center text-muted-foreground">
               <BananaIcon className="size-12 mb-6" />

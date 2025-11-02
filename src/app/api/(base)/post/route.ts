@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
   if (id) query = query.eq("id", id).single();
   else if (limit) query = query.limit(parseInt(limit));
-
+  if (uid) query = query.eq("user_id", uid); 
   const { data: dbData, error } = await query;
 
   if (error) {

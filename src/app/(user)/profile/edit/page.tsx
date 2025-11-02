@@ -23,6 +23,8 @@ import Link from "next/link";
 // import { useRouter } from "next/navigation";
 import React from "react";
 import { useCookies } from "react-cookie";
+import EditProf from "./edit-prof";
+import { Separator } from "@/components/ui/separator";
 
 export default function Page() {
   const [{ token }] = useCookies(["token"]);
@@ -52,7 +54,7 @@ export default function Page() {
   }
   const user: User = data;
   return (
-    <main className="pt-18 p-4 pb-6 space-y-6">
+    <main className="pt-18 p-4 pb-6 space-y-6  w-2/3! mx-auto!">
       <div className="flex justify-center items-center mt-6">
         <div className="size-[30dvw] lg:size-[200px] relative">
           <Avatar className="size-full bg-secondary z-10">
@@ -78,8 +80,9 @@ export default function Page() {
           <Link href={"edit/avatar"}>Edit Avatar</Link>
         </Button>
       </div>
+      <Separator />
       <h4 className="text-xl font-semibold mt-12">Edit Profile</h4>
-      <div className="space-y-4 flex justify-center items-center">
+      {/* <div className="space-y-4 flex justify-center items-center">
         <div className="w-full rounded-lg border bg-muted/30 p-6 text-sm text-muted-foreground flex flex-col justify-center items-center gap-3">
           <ConstructionIcon className="h-8 w-8" />
           <p className="text-center">This feature is under development..</p>
@@ -87,30 +90,8 @@ export default function Page() {
             <Link href={"/contact"}>want to help??</Link>
           </Button>
         </div>
-      </div>
-      <div className="space-y-4 hidden">
-        <Label>Name:</Label>
-        <Input />
-        <Label>Alias:</Label>
-        <Input />
-        <div className="flex gap-2 justify-end items-center mt-6">
-          <Checkbox /> <Label>Prefer Alias</Label>
-        </div>
-        <Label>Bio:</Label>
-        <Textarea className="h-[300px] resize-none" />
-        <Label>Gender:</Label>
-        <Select>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select Gender" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
-            <SelectItem value="others">Others</SelectItem>
-          </SelectContent>
-        </Select>
-        {/* <Label>Gender:</Label> */}
-      </div>
+      </div> */}
+      <EditProf />
     </main>
   );
 }
