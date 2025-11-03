@@ -1,8 +1,6 @@
 import Dock from "@/components/ui/dock";
 import { Metadata } from "next";
 import Docked from "../../../components/core/dock";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { Button } from "@/components/ui/button";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,6 +14,7 @@ import {
 import { BellIcon, UserCircle2Icon } from "lucide-react";
 import { MagicCard } from "@/components/magicui/magic-card";
 import { navItems } from "@/lib/navigation";
+import SubNavs from "@/components/core/sub-navs";
 
 export const metadata: Metadata = {
   title: "Aether - Admin",
@@ -69,12 +68,7 @@ export default function Layout({
           {/* <div className="w-full bg-card rounded-sm">
 
           </div> */}
-          <MagicCard className="w-full rounded-sm">
-            <ButtonGroup>
-              <Button variant={"outline"}>Stastics</Button>
-              <Button variant={"outline"}>Stastics</Button>
-            </ButtonGroup>
-          </MagicCard>
+          <SubNavs />
         </div>
         <div className="w-full flex justify-center items-end relative h-[100px]">
           <Dock className="absolute bottom-0 top-1/2! left-1/2! -translate-1/2!">

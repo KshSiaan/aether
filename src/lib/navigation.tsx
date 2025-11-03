@@ -1,5 +1,6 @@
 import {
   BookIcon,
+  EllipsisIcon,
   HomeIcon,
   MegaphoneIcon,
   SpeakerIcon,
@@ -50,5 +51,20 @@ export const navItems: NavItem[] = [
     icon: (
       <MegaphoneIcon className="h-8 w-8 fill-black stroke-black rounded-full" />
     ),
+  },
+  {
+    id: "5",
+    label: "Others",
+    href: "/admin/others",
+    src: "https://products.ls.graphics/mesh-gradients/images/15.-Perfume_1-p-130x130q80.jpeg",
+    icon: (
+      <EllipsisIcon className="h-8 w-8 fill-black stroke-black rounded-full" />
+    ),
+    childs: [
+      {
+        label: "Feedback",
+        href: "/admin/others/feedback",
+      },
+    ],
   },
 ];

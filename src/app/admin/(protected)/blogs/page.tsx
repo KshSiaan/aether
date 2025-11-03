@@ -64,7 +64,7 @@ export default function Page() {
                 <TableRow key={x.id}>
                   <TableCell>#{x.id}</TableCell>
                   <TableCell>{x?.user?.name}</TableCell>
-                  <TableCell>{x.title.slice(0, 20)}</TableCell>
+                  <TableCell>{x?.title?.slice(0, 20)}</TableCell>
                   <TableCell
                     dangerouslySetInnerHTML={{
                       __html: safeHTML,
