@@ -30,6 +30,7 @@ export default function PostList() {
       body: string;
       created_at: string;
       isLiked: boolean;
+      hearts: number[];
       user: {
         name: string;
         role: string;
