@@ -90,32 +90,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const data: {
-  name: string;
-  email: string;
-  feedback: string;
-} = await req.json();
-
-  if (!data) {
-    return NextResponse.json(
-      { message: "Please provide a valid feedback body", ok: false },
-      { status: 422 }
-    );
-  }else if(!data.name){
-    return NextResponse.json(
-      { message: "Please provide a name", ok: false },
-      { status: 422 }
-    );
-  }else if (!data.email) {
-    return NextResponse.json(
-      { message: "Please provide an email", ok: false },
-      { status: 422 }
-    );
-  }
 
   let uid: string | null = null;
 
-  // Optional auth
   const authHeader = req.headers.get("Authorization");
   if (authHeader) {
     const token = authHeader.split(" ")[1];
@@ -128,55 +105,36 @@ export async function GET(req: NextRequest) {
         });
         uid = verifiedToken.payload.uid as string;
       } catch {
-            return NextResponse.json({ message: "You must be logged in as admin in order to see this", ok:false }, { status: 401 });
+        return NextResponse.json(
+          { message: "Invalid or expired token", ok: false },
+          { status: 401 }
+        );
       }
     }
   }
-  const {data:user,error:dbErr} = await supabase.from("user").select("*").eq("uid",uid).single();
 
-  if (dbErr) {
-       return NextResponse.json({ message: dbErr.message, ok:false }, { status: 401 });
-  }
-
-  if (user.role) {
-    
-  }
-
-  const { data: dbData, error } = await supabase
-    .from("feedback")
-    .insert([
-      {
-        user_id: uid,
-        ...data
-      },
-    ])
-    .select(
-      `
-        *,
-        user:user_id(
-          name,
-          role,
-          alias,
-          email,
-          gender,
-          connects,
-          original,
-          avatar_url
-        )
-      `
-    )
+  const { data: user, error: dbErr } = await supabase
+    .from("user")
+    .select("*")
+    .eq("uid", uid)
     .single();
+
+  if (dbErr || !user || user.role !== "admin") {
+    return NextResponse.json(
+      { message: "You must be logged in as admin to view this", ok: false },
+      { status: 401 }
+    );
+  }
+
+  const { data: dbData, error } = await supabase.from("feedback").select("*");
 
   if (error) {
     console.log(error);
-    return NextResponse.json({ message: error.message }, { status: 502 });
+    return NextResponse.json(
+      { message: error.message, ok: false },
+      { status: 502 }
+    );
   }
 
-  return NextResponse.json({
-    ok: true,
-    data: dbData,
-    message: uid
-      ? `Successfully created the feedback of ${dbData.user?.name}`
-      : "Successfully created the feedback",
-  });
+  return NextResponse.json({ ok: true, data: dbData });
 }
