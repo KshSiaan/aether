@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import TanstackProvider from "@/provider/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
+import { Loader2Icon } from "lucide-react";
 const reem = Reem_Kufi({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -69,17 +71,25 @@ export default function RootLayout({
         className={`overflow-x-hidden! ${reem.className}`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+        <Suspense
+          fallback={
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          }
         >
-          <TanstackProvider>
-            {children}
-            <Toaster />
-          </TanstackProvider>
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TanstackProvider>
+              {children}
+              <Toaster />
+            </TanstackProvider>
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );
