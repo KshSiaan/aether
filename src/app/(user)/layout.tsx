@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import NotFound from "../not-found";
 import { Suspense } from "react";
 import { Loader2Icon } from "lucide-react";
-export default async function RootLayout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

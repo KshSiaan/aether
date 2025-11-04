@@ -28,7 +28,6 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Page() {
   const [{ token }] = useCookies(["token"]);
-  //   const router = useRouter();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["me"],
     queryFn: (): idk => {
@@ -82,8 +81,7 @@ export default function Page() {
       </div>
       <Separator />
       <h4 className="text-xl font-semibold mt-12">Edit Profile</h4>
-
-      <EditProf />
+      <EditProf data={data} isPending={isPending} />
     </main>
   );
 }

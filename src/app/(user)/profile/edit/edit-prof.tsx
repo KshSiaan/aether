@@ -34,7 +34,13 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-export default function EditProf() {
+export default function EditProf({
+  data,
+  isPending,
+}: {
+  data: idk;
+  isPending: boolean;
+}) {
   const [{ token }] = useCookies(["token"]);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -44,13 +50,6 @@ export default function EditProf() {
       prefer_alias: false,
       bio: "",
       gender: undefined,
-    },
-  });
-
-  const { data, isPending } = useQuery({
-    queryKey: ["me"],
-    queryFn: (): idk => {
-      return meApi(token);
     },
   });
   const { mutate } = useMutation({
