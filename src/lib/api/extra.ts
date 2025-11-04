@@ -21,3 +21,21 @@ export const getFeedbacksApi = async ({
 }) => {
   return howl("/feedback", {token});
 };
+
+export const postDevNoteApi = async ({
+  body,
+  token,
+}: {
+  body: {
+    note: string;
+  };
+  token?: string;
+}) => {
+  return howl("/devnote", { method: "PUT", body, token });
+};
+
+export const getDevNoteApi = async () => {
+  return howl("/devnote");
+};
+
+

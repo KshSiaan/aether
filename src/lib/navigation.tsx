@@ -65,6 +65,10 @@ export const navItems: NavItem[] = [
         label: "Feedback",
         href: "/admin/others/feedback",
       },
+      {
+        label: "Developer note",
+        href: "/admin/others/devnote",
+      },
     ],
   },
 ];

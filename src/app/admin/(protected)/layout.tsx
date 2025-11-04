@@ -15,14 +15,20 @@ import { BellIcon, UserCircle2Icon } from "lucide-react";
 import { MagicCard } from "@/components/magicui/magic-card";
 import { navItems } from "@/lib/navigation";
 import SubNavs from "@/components/core/sub-navs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Aether - Admin",
 };
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const token = (await cookies()).get("token")?.value;
+  if (!token) {
+    return redirect("/admin/auth");
+  }
   return (
     <main className="h-dvh w-dvw bg-background flex flex-col justify-between items-center gap-6 p-6 overflow-hidden">
       <div className="w-full flex justify-between items-center">
