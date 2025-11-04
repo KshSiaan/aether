@@ -82,15 +82,7 @@ export default function Page() {
       </div>
       <Separator />
       <h4 className="text-xl font-semibold mt-12">Edit Profile</h4>
-      {/* <div className="space-y-4 flex justify-center items-center">
-        <div className="w-full rounded-lg border bg-muted/30 p-6 text-sm text-muted-foreground flex flex-col justify-center items-center gap-3">
-          <ConstructionIcon className="h-8 w-8" />
-          <p className="text-center">This feature is under development..</p>
-          <Button variant={"link"} asChild className="h-auto p-0">
-            <Link href={"/contact"}>want to help??</Link>
-          </Button>
-        </div>
-      </div> */}
+
       <EditProf />
     </main>
   );
