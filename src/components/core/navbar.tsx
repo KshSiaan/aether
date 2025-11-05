@@ -60,10 +60,10 @@ export default function Navbar() {
       <nav className="hidden h-12 lg:flex justify-center items-center">
         <div className="px-4 h-full rounded-full border flex justify-center items-center bg-zinc-50/40 dark:bg-zinc-950/40 shadow">
           <Button variant={"link"} asChild>
-            <Link href={"/app/features"}>Features</Link>
+            <Link href={"/app/feed"}>App</Link>
           </Button>
           <Button variant={"link"} asChild>
-            <Link href={"/origin"}>Origin</Link>
+            <Link href={"/glimpse"}>Glimpse</Link>
           </Button>
           <Button variant={"link"} asChild>
             <Link href={"/blog"}>Blogs</Link>

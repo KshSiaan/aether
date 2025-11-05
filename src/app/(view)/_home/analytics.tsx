@@ -1,52 +1,15 @@
 "use client";
-import React from "react";
+import { getCountApi } from "@/lib/api/extra";
+import { idk } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import { cubicBezier, motion } from "framer-motion";
-import { BookOpenIcon, FileTextIcon, Users2Icon, ZapIcon } from "lucide-react";
-
-const stats = [
-  {
-    title: "Total Users",
-    value: "123",
-    change: "+12%",
-    trend: "up",
-    icon: Users2Icon,
-    gradient: "from-blue-500 to-cyan-500",
-    bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950",
-    description: "Active users this month",
-  },
-  {
-    title: "Posts Created",
-    value: "230",
-    change: "+8%",
-    trend: "up",
-    icon: FileTextIcon,
-    gradient: "from-emerald-500 to-teal-500",
-    bgGradient:
-      "from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950",
-    description: "Content published",
-  },
-  {
-    title: "Blog Articles",
-    value: "56",
-    change: "+23%",
-    trend: "up",
-    icon: BookOpenIcon,
-    gradient: "from-purple-500 to-pink-500",
-    bgGradient:
-      "from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950",
-    description: "Published articles",
-  },
-  {
-    title: "Features",
-    value: "7",
-    change: "+2",
-    trend: "up",
-    icon: ZapIcon,
-    gradient: "from-orange-500 to-red-500",
-    bgGradient: "from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950",
-    description: "New features added",
-  },
-];
+import {
+  BookOpenIcon,
+  FileTextIcon,
+  Loader2Icon,
+  Users2Icon,
+  ZapIcon,
+} from "lucide-react";
 
 const GradientDecorations = ({ gradient }: { gradient: string }) => (
   <>
@@ -69,7 +32,7 @@ const StatCard = ({
   gradient,
   bgGradient,
   description,
-}: (typeof stats)[0]) => {
+}: idk) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.95 },
     visible: {
@@ -120,6 +83,63 @@ const StatCard = ({
 };
 
 export default function Analytics() {
+  const { data, isPending }: idk = useQuery({
+    queryKey: ["count"],
+    queryFn: getCountApi,
+  });
+
+  if (isPending) {
+    return (
+      <div className={`flex justify-center items-center h-24 mx-auto`}>
+        <Loader2Icon className={`animate-spin`} />
+      </div>
+    );
+  }
+
+  const stats = [
+    {
+      title: "Nodes",
+      value: "N/A",
+      icon: ZapIcon,
+      gradient: "from-teal-500 to-indigo-500",
+      bgGradient:
+        "from-indigo-50 to-blue-50 dark:from-indigo-950 dark:to-blue-950",
+      description: "Code block nodes",
+    },
+    {
+      title: "Total Users",
+      value: data?.users ?? "N/A",
+      change: "+12%",
+      trend: "up",
+      icon: Users2Icon,
+      gradient: "from-emerald-500 to-teal-500",
+      bgGradient:
+        "from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950",
+      description: "Active users this month",
+    },
+    {
+      title: "Posts Created",
+      value: data?.posts ?? "N/A",
+      change: "+8%",
+      trend: "up",
+      icon: FileTextIcon,
+      gradient: "from-blue-500 to-cyan-500",
+      bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950",
+
+      description: "Content published",
+    },
+    {
+      title: "Blog Articles",
+      value: data?.blogs ?? "N/A",
+      change: "+23%",
+      trend: "up",
+      icon: BookOpenIcon,
+      gradient: "from-purple-500 to-pink-500",
+      bgGradient:
+        "from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950",
+      description: "Published articles",
+    },
+  ];
   return (
     <div className="p-6">
       <div className="w-full mx-auto">

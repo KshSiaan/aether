@@ -20,6 +20,7 @@
   },
   "registries": {
     "@shadcn-editor": "https://shadcn-editor.vercel.app/r/{name}.json",
-    "@magicui": "https://magicui.design/r/{name}.json"
+    "@magicui": "https://magicui.design/r/{name}.json",
+    "@eldoraui": "https://eldoraui.site/r/{name}.json"
   }
 }

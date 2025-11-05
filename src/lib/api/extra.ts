@@ -38,4 +38,6 @@ export const getDevNoteApi = async () => {
   return howl("/devnote");
 };
 
-
+export const getCountApi = async () => {
+  return howl("/count");
+};

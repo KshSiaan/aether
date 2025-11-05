@@ -24,13 +24,15 @@ export default function Page() {
       toast.error(err.message ?? "Failed to complete this request");
     },
     onSuccess: (res: idk) => {
-      toast.success(res.message ?? "Success!");
+      toast.success(res.message ?? "Updated developer note in homepage!");
     },
   });
 
   useEffect(() => {
     if (!isPending) {
-      setNote(data?.note);
+      console.log(data);
+
+      setNote(data?.data?.note);
     }
   }, [isPending]);
 
@@ -44,7 +46,9 @@ export default function Page() {
         }}
         placeholder="Dev note.."
       />
-      <Button>Update Dev note</Button>
+      <Button disabled={!note?.trim()} onClick={() => mutate()}>
+        Update Dev note
+      </Button>
     </main>
   );
 }

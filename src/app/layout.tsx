@@ -6,10 +6,8 @@ import TanstackProvider from "@/provider/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loader2Icon } from "lucide-react";
-const reem = Reem_Kufi({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+
+const reem = Reem_Kufi();
 
 export const metadata: Metadata = {
   title: "Aether",

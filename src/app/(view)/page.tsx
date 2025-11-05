@@ -1,9 +1,11 @@
 import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { Suspense } from "react";
 import ClientView from "./client-view";
 import BentoSection from "./bento-section";
-import Analytics from "./analytics";
+import Analytics from "./_home/analytics";
+import Note from "./_home/note";
+import { Loader2Icon } from "lucide-react";
 
 export default function Home() {
   return (
@@ -31,18 +33,48 @@ export default function Home() {
         <h2 className="text-4xl text-center font-semibold">
           What is Aether anyway?
         </h2>
-        <BentoSection />
+        <Suspense
+          fallback={
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          }
+        >
+          <BentoSection />
+        </Suspense>
         <div className="mt-[20dvh]">
           <h2 className="text-4xl text-center font-semibold">
             Aether currently has
           </h2>
           <div className="mt-24">
-            <Analytics />
+            <Suspense
+              fallback={
+                <div
+                  className={`flex justify-center items-center h-24 mx-auto`}
+                >
+                  <Loader2Icon className={`animate-spin`} />
+                </div>
+              }
+            >
+              <Analytics />
+            </Suspense>
           </div>
         </div>
         <div className="mt-[20dvh]">
           <h2 className="text-4xl text-center font-semibold">Developer Note</h2>
-          <article className="mt-24">[My notes goes in here]...</article>
+          <article className="mt-24">
+            <Suspense
+              fallback={
+                <div
+                  className={`flex justify-center items-center h-24 mx-auto`}
+                >
+                  <Loader2Icon className={`animate-spin`} />
+                </div>
+              }
+            >
+              <Note />
+            </Suspense>
+          </article>
         </div>
       </main>
     </>
