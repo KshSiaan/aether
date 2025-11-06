@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`overflow-x-hidden! ${reem.className}`}
+        className={`overflow-x-hidden!  ${reem.className}`}
         suppressHydrationWarning
       >
         <Suspense

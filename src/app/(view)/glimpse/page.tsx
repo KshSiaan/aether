@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="pt-48 pb-24 px-[7%]">
+    <main className="pt-48 pb-24 px-[7%] ">
       <h1 className="text-3xl lg:text-5xl border-b mb-24">
         Here's a quick guide on this platform
       </h1>
@@ -102,7 +102,7 @@ export default function Page() {
         </div>
       </article>
       <Separator className="my-12" />
-      <article id="#code" className="text-muted-foreground">
+      <article id="code" className="text-muted-foreground">
         <h3 className="w-full text-2xl">Code Block management</h3>
         <br />
         <div className="flex gap-6 items-center justify-start">
@@ -117,7 +117,7 @@ export default function Page() {
       </article>
 
       <Separator className="my-12" />
-      <article id="#posts" className="text-muted-foreground">
+      <article id="posts" className="text-muted-foreground">
         <h3 className="w-full text-2xl">Post management</h3>
         <br />
         <div className="flex gap-6 items-center justify-start">
@@ -152,15 +152,50 @@ export default function Page() {
             </Link>{" "}
             from the top corner of your screen
           </li>
+          <li>
+            There <span className="text-foreground">"My Post"</span> tab right
+            under the profile card is supposed to be activated by default, if
+            not, click on it. and it will show your posts, if you have any.
+          </li>
+          <li>
+            Afrer the "My post" is active, there should a button with the label{" "}
+            <Link className="text-foreground" href={"/profile/posts/create"}>
+              "Create Post"
+            </Link>{" "}
+            on the right corner of the My Posts tab. Click it.
+          </li>
+          <li>
+            Now you have a Post creation Interface where there is a
+            <ul className="pl-12 list-disc list-inside">
+              <li>Post body editor field to write and modify your content</li>
+              <li>
+                "Confirm & Post" submit button to confirm and upload the post on{" "}
+                <Link href={"/app/feed"} className="text-foreground">
+                  feed
+                </Link>
+                .
+              </li>
+            </ul>
+          </li>
+          <li>
+            After you write a post and post it. it should be listed in the feed
+            section. and your profile as well.
+          </li>
+        </ul>
+
+        <br />
+        <h4 className="text-2xl pb-6">Features:</h4>
+        <ul className="list-disc list-inside">
+          <li>
+            Actions:
+            <ul className="pl-12 list-disc list-inside">
+              <li>
+                <span>Undo & Redo:</span>
+              </li>
+            </ul>
+          </li>
         </ul>
       </article>
     </main>
   );
 }
-
-// <Link
-//   className="text-primary font-bold"
-//   href={"https://ravenorigin.vercel.app"}
-// >
-//   Raven
-// </Link>
