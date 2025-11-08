@@ -1,4 +1,6 @@
+import { base_api } from "@/lib/config";
 import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 
 export default async function RootLayout({
   children,
@@ -6,24 +8,27 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const token = (await cookies()).get("token")?.value;
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; // or use request.url
 
   if (token) {
-    const res = await fetch(`${baseUrl}/api/me`, {
+    console.log(`${base_api}/me`);
+
+    const res = await fetch(`${base_api}/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     });
+    const user = await res.json();
 
     if (res.ok) {
-      const user = await res.json();
-      console.log("User:", user);
-    } else {
-      console.error("Failed to fetch user:", res.status);
+      if (user.role === "admin") {
+        return redirect("/admin/dashboard");
+      } else if (user.role === "user") {
+        return notFound();
+      }
     }
   }
 
-  return <>{children}</>;
+  return children;
 }
