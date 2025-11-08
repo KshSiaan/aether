@@ -2,7 +2,13 @@
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { CodeXmlIcon, DramaIcon, HouseIcon, NewspaperIcon } from "lucide-react";
+import {
+  BrushIcon,
+  CodeXmlIcon,
+  DramaIcon,
+  HouseIcon,
+  NewspaperIcon,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 export default function NavigContent() {
@@ -11,6 +17,7 @@ export default function NavigContent() {
     { name: "Feed", href: "/app/feed", icon: NewspaperIcon },
     { name: "Featured", href: "/app/features", icon: CodeXmlIcon },
     { name: "Spirits", href: "/app/features/spirits", icon: DramaIcon },
+    { name: "Create", href: "/node/create", icon: BrushIcon },
   ];
   const pathname = usePathname();
   return (

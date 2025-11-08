@@ -177,6 +177,21 @@ export default function Page() {
             </div>
           </section>
         </TabsContent>
+        <TabsContent value="1" className="">
+          <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
+            <div className="w-full flex justify-end items-center">
+              <Button asChild>
+                <Link href={"/profile/posts/create"}>Create a node</Link>
+              </Button>
+            </div>
+            {/* <PostSect /> */}
+            <div className="w-full grid align-middle">
+              <Button variant={"link"} className="mx-auto" asChild>
+                <Link href={"/profile/posts"}>View all my nodes</Link>
+              </Button>
+            </div>
+          </section>
+        </TabsContent>
       </Tabs>
     </main>
   );

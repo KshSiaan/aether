@@ -5,8 +5,11 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import PostManagement from "./post";
+import BlogManagement from "./blog";
 
 export default function Page() {
   return (
@@ -117,85 +120,9 @@ export default function Page() {
       </article>
 
       <Separator className="my-12" />
-      <article id="posts" className="text-muted-foreground">
-        <h3 className="w-full text-2xl">Post management</h3>
-        <br />
-        <div className="flex gap-6 items-center justify-start">
-          <p>Requirement: </p>
-          <div className=" space-x-2">
-            <Badge variant={"outline"}>Must be logged in</Badge>
-            <Badge variant={"outline"}>Have a valid text title</Badge>
-            <Badge variant={"outline"}>Have a valid text content</Badge>
-          </div>
-        </div>
-        <br />
-        <p>
-          Posts are another feature of aether. you can tell people about what
-          you're up to. you can encourage people, help poeple. Share about your
-          code block. you can share your innovation and ideas through it. but
-          remember, posts are limited text contents. you cant not write a post
-          as effeciently as you can write a blog. why? blogs are more dynamic
-          and more content holder. we could have the same functionality in
-          posts. but posts are like posts. share ideas. go boom!! kaboom!!
-        </p>
-        <br />
-        <br />
-        <h4 className="text-xl">
-          <b>How to create a post?</b>
-        </h4>
-        <br />
-        <ul className="list-disc list-inside">
-          <li>
-            Go to{" "}
-            <Link href={"/profile"} className="text-foreground hover:underline">
-              "My profile"
-            </Link>{" "}
-            from the top corner of your screen
-          </li>
-          <li>
-            There <span className="text-foreground">"My Post"</span> tab right
-            under the profile card is supposed to be activated by default, if
-            not, click on it. and it will show your posts, if you have any.
-          </li>
-          <li>
-            Afrer the "My post" is active, there should a button with the label{" "}
-            <Link className="text-foreground" href={"/profile/posts/create"}>
-              "Create Post"
-            </Link>{" "}
-            on the right corner of the My Posts tab. Click it.
-          </li>
-          <li>
-            Now you have a Post creation Interface where there is a
-            <ul className="pl-12 list-disc list-inside">
-              <li>Post body editor field to write and modify your content</li>
-              <li>
-                "Confirm & Post" submit button to confirm and upload the post on{" "}
-                <Link href={"/app/feed"} className="text-foreground">
-                  feed
-                </Link>
-                .
-              </li>
-            </ul>
-          </li>
-          <li>
-            After you write a post and post it. it should be listed in the feed
-            section. and your profile as well.
-          </li>
-        </ul>
-
-        <br />
-        <h4 className="text-2xl pb-6">Features:</h4>
-        <ul className="list-disc list-inside">
-          <li>
-            Actions:
-            <ul className="pl-12 list-disc list-inside">
-              <li>
-                <span>Undo & Redo:</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </article>
+      <PostManagement />
+      <Separator className="my-12" />
+      <BlogManagement />
     </main>
   );
 }
