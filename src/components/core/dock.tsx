@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { DockCard, DockCardInner, useDock } from "@/components/ui/dock";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Tooltip,
   TooltipContent,
@@ -15,7 +14,6 @@ export default function Docked({ links }: { links: NavItem[] }) {
   const { animatingIndexes, setAnimatingIndexes } = useDock();
   const router = useRouter();
   const pathname = usePathname();
-  const isMobile = useIsMobile();
 
   const displayedItems = links;
 

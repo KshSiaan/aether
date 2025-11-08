@@ -1,5 +1,6 @@
 import {
   BookIcon,
+  CodeXmlIcon,
   EllipsisIcon,
   HomeIcon,
   MegaphoneIcon,
@@ -54,6 +55,15 @@ export const navItems: NavItem[] = [
   },
   {
     id: "5",
+    label: "Nodes",
+    href: "/admin/nodes",
+    src: "https://products.ls.graphics/mesh-gradients/images/15.-Perfume_1-p-130x130q80.jpeg",
+    icon: (
+      <CodeXmlIcon className="h-8 w-8 fill-black stroke-black rounded-full" />
+    ),
+  },
+  {
+    id: "6",
     label: "Others",
     href: "/admin/others",
     src: "https://products.ls.graphics/mesh-gradients/images/15.-Perfume_1-p-130x130q80.jpeg",
