@@ -61,6 +61,12 @@ export const navItems: NavItem[] = [
     icon: (
       <CodeXmlIcon className="h-8 w-8 fill-black stroke-black rounded-full" />
     ),
+    childs: [
+      {
+        label: "Blocks",
+        href: "/admin/nodes/blocks",
+      },
+    ],
   },
   {
     id: "6",

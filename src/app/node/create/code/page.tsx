@@ -1,10 +1,12 @@
-import { Suspense } from "react";
-import Features from "./features";
+import React, { Suspense } from "react";
+import Code from "./code";
+import NodeNav from "../node-nav";
 import { Loader2Icon } from "lucide-react";
 
 export default function Page() {
   return (
-    <div className="grid lg:grid-cols-3 gap-6 h-full w-full p-6">
+    <main className="h-dvh w-full flex flex-col overflow-hidden bg-background">
+      <NodeNav title="Finalize your code" />
       <Suspense
         fallback={
           <div className={`flex justify-center items-center h-24 mx-auto`}>
@@ -12,8 +14,8 @@ export default function Page() {
           </div>
         }
       >
-        <Features />
+        <Code />
       </Suspense>
-    </div>
+    </main>
   );
 }

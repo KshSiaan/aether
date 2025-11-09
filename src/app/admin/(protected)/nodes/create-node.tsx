@@ -24,13 +24,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNodesApi } from "@/lib/api/node";
+import { toast } from "sonner";
+import { idk } from "@/lib/utils";
+import { useCookies } from "react-cookie";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
-  description: z.string().optional(),
+  description: z.string(),
 });
 
 export default function CreateNode() {
+  const [{ token }] = useCookies(["token"]);
+  const qcl = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,8 +46,27 @@ export default function CreateNode() {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationKey: ["create_node"],
+    mutationFn: ({
+      name,
+      description,
+    }: {
+      name: string;
+      description: string;
+    }): idk => {
+      return createNodesApi({ name, description, token });
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      toast.success(res.message ?? "Successfully created the node");
+      qcl.invalidateQueries({ queryKey: ["nodes"] });
+    },
+  });
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("Node created:", values);
+    mutate(values);
   };
 
   return (
