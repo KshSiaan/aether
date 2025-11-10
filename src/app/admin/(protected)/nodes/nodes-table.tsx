@@ -1,7 +1,7 @@
 "use client";
-import { getNodesApi } from "@/lib/api/node";
+import { deleteNodeApi, getNodesApi } from "@/lib/api/node";
 import { idk } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EyeIcon, Loader2Icon, TrashIcon } from "lucide-react";
+import { EyeIcon, Loader2Icon, Trash2Icon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,11 +20,40 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { useCookies } from "react-cookie";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 export default function NodesTable() {
+  const [{ token }] = useCookies(["token"]);
+  const qcl = useQueryClient();
   const { data, isPending }: idk = useQuery({
     queryKey: ["nodes"],
     queryFn: getNodesApi,
   });
+  const { mutate } = useMutation({
+    mutationKey: ["deleteNode"],
+    mutationFn: (id: string | number) => {
+      return deleteNodeApi({ id, token });
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      qcl.invalidateQueries({ queryKey: ["nodes"] });
+      toast.success(res.message ?? "Successfully deleted node");
+    },
+  });
+
   if (isPending) {
     <div className={`flex justify-center items-center h-24 mx-auto`}>
       <Loader2Icon className={`animate-spin`} />
@@ -43,7 +72,12 @@ export default function NodesTable() {
       </TableHeader>
       <TableBody>
         {data?.data?.map(
-          (x: { name: string; description: string; childs: string[] }) => (
+          (x: {
+            id: string | number;
+            name: string;
+            description: string;
+            childs: string[];
+          }) => (
             <TableRow key={x.name}>
               <TableCell>{x.name}</TableCell>
               <TableCell>{x.description}</TableCell>
@@ -74,13 +108,36 @@ export default function NodesTable() {
                     </div>
                   </DialogContent>
                 </Dialog>
-                <Button
-                  size={"icon"}
-                  variant={"ghost"}
-                  className="text-destructive"
-                >
-                  <TrashIcon />
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      size={"icon"}
+                      variant={"ghost"}
+                      className="text-destructive"
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delet this node?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Raven, you sure you wanna do this?
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Oops, No</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          mutate(x.id);
+                        }}
+                      >
+                        <Trash2Icon />
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </TableCell>
             </TableRow>
           )

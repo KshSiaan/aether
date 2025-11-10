@@ -5,9 +5,12 @@ import { supabase } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const data: {
-    name:string,
-    description:string
-  } = await req.json();
+  title: string
+  language: string
+  code: string
+  node: number
+  categories: Array<number>
+} = await req.json();
   console.log(data);
   
   if (!data) {
@@ -15,9 +18,19 @@ export async function POST(req: NextRequest) {
       { message: "Please provide valid dataset", ok: false },
       { status: 422 }
     );
-  } else if (!data.name || !data.description) {
+  } else if (!data.title ||!data.language) {
     return NextResponse.json(
       { message: "Please provide valid dataset", ok: false },
+      { status: 422 }
+    );
+  }else if(!data.code){
+    return NextResponse.json(
+      { message: "No code found, Go back and write something to store", ok: false },
+      { status: 422 }
+    );
+  }else if(data.categories.length<=0){
+    return NextResponse.json(
+      { message: "You must select at least one category", ok: false },
       { status: 422 }
     );
   }
@@ -28,7 +41,7 @@ export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
             return NextResponse.json(
-          { message: "You must be an admin in order to change it", ok: false },
+          { message: "You must be logged in to do this", ok: false },
           { status: 402 }
         );
   }
@@ -44,30 +57,30 @@ export async function POST(req: NextRequest) {
         uid = verifiedToken.payload.uid as string;
       } catch {
         return NextResponse.json(
-          { message: "You must be an admin in order to change it", ok: false },
+          { message: "You must be logged in to do this", ok: false },
           { status: 402 }
         );
       }
     }
   }
-
-  const { data: user, error: dbErr } = await supabase
-    .from("user")
-    .select("*")
-    .eq("uid", uid)
-    .single();
-
-  if (dbErr || !user || user.role !== "admin") {
-    return NextResponse.json(
-      { message: "You must be logged in as admin to do this", ok: false }, 
-      { status: 401 }
-    );
-  }
   
   
   //This is the thing
   const { data: dbData, error } = await supabase
-    .from("nodes").insert([{name:data.name,description:data.description,childs:[]}]).select("*").single();
+    .from("block").insert([{
+      title:data.title,
+      language:data.language,
+      code:data.code,
+      node_id:data.node,
+      categories:data.categories,
+      author:uid
+    }]).select(      `
+        *,
+        node:node_id(
+          name,
+          childs
+        )
+      `).single();
 
   if (error) {
     console.log(error);
@@ -76,10 +89,40 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    data: dbData,
-    message:`Successfully created the node ${dbData.name}!`
+    data: dbData, 
+    message:`Successfully created your block -> ${dbData.name}!`
   });
 }
+
+
+export async function GET(req: NextRequest) {
+  const id = req.nextUrl.searchParams.get("node");
+
+  let query = supabase
+    .from("block")
+    .select(`
+      *,
+      node:node_id(
+        name,
+        childs
+      )
+    `);
+
+  // if (id) query = query.eq("node_id", id);
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    return NextResponse.json(
+      { ok: false, message: error.message },
+      { status: 502 }
+    );
+  }
+
+  return NextResponse.json({ ok: true, data });
+}
+
 
 export async function DELETE(req: NextRequest) {
   let uid: string | null = null;
@@ -128,7 +171,7 @@ export async function DELETE(req: NextRequest) {
   const id = searchParams.get("id");
   //This is the thing
   const { data: dbData, error } = await supabase
-    .from("nodes").delete().eq("id",id).select("*").single();
+    .from("category").delete().eq("id",id).select("*").single();
 
   if (error) {
     console.log(error);
@@ -140,20 +183,4 @@ export async function DELETE(req: NextRequest) {
     data: dbData,
     message:`${dbData.name} is deleted!`
   });
-}
-
-
-export async function GET() {
-
-  const { data: dbData, error } = await supabase.from("nodes").select("*");
-
-  if (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: error.message, ok: false },
-      { status: 502 }
-    );
-  }
-
-  return NextResponse.json({ ok: true, data: dbData });
 }

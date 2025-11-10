@@ -66,6 +66,10 @@ export const navItems: NavItem[] = [
         label: "Blocks",
         href: "/admin/nodes/blocks",
       },
+      {
+        label: "Categories",
+        href: "/admin/nodes/categories",
+      },
     ],
   },
   {
