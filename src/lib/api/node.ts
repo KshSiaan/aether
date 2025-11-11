@@ -1,3 +1,4 @@
+import { User } from "../types/user";
 import { howl } from "../utils";
 
 export const getNodesApi = async () => {
@@ -55,7 +56,7 @@ export const getBlockByIdApi = async ({id}:{id:string}):Promise<{
   node_id: number
   categories: Array<number>
   created_at: string
-  author: number
+  author: User
   private: boolean
   description: string
   node: {
