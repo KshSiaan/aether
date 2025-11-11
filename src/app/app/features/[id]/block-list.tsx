@@ -108,7 +108,13 @@ export default function Block_list({ id }: { id: string }) {
         <div className="border-b p-2 w-full">
           <h4 className="text-end text-lg px-4">Categories</h4>
         </div>
-        <div className="w-full flex-1"></div>
+        <div className="w-full flex-1 space-x-2 space-y-2 p-2">
+          {cats?.data?.map((x: idk) => (
+            <Button size={"sm"} key={x.id}>
+              {x.name}
+            </Button>
+          ))}
+        </div>
       </div>
     </>
   );

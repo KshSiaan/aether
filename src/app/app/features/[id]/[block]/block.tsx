@@ -1,5 +1,5 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
+
 import { Separator } from "@/components/ui/separator";
 import {
   BundledLanguage,
@@ -17,11 +17,21 @@ import { LANGUAGES } from "@/lib/dataset";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import React from "react";
-import { toast } from "sonner";
 
+import { toast } from "sonner";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 export default function Block({
   code,
 }: {
@@ -48,6 +58,7 @@ export default function Block({
       return getCategoriesApi({ node: code.node_id });
     },
   });
+  const navig = useRouter();
   const codeSet = [
     {
       language: code.language,
@@ -57,10 +68,20 @@ export default function Block({
       code: code.code,
     },
   ];
+  const lineCount = code.code.split("\n").length;
   return (
     <main className="h-full w-full flex-1">
-      <div className="border-b">
-        <h1 className="text-lg pb-2 text-end">
+      <div className="border-b pb-2 flex items-center justify-between">
+        <Button
+          variant={"ghost"}
+          onClick={() => {
+            navig.back();
+          }}
+        >
+          <ArrowLeft />
+          Go back
+        </Button>
+        <h1 className="text-lg text-end">
           {code.title}
           {LANGUAGES.find((l) => l.value === code.language)?.ext ?? ".txt"}
         </h1>
@@ -97,22 +118,42 @@ export default function Block({
           </CodeBlockBody>
         </CodeBlock>
       </div>
-      <div className="flex justify-between items-center">
-        <div className="flex justify-start items-center mt-4 gap-2 text-sm text-muted-foreground">
-          Author:{" "}
-          <Badge className="group" asChild>
-            <Link href={`/user?id=${code.author.uid}`}>
-              {code.author.prefer_alias ? code.author.alias : code.author.name}
-            </Link>
-          </Badge>
-        </div>
-        <div className="flex justify-end items-center mt-4 gap-2 text-sm text-muted-foreground">
-          This block is:{" "}
-          <Badge variant={"outline"}>
-            {code.private ? "Private" : "Public"}
-          </Badge>
-        </div>
-      </div>
+      <Table className="mt-4 text-center ">
+        <TableBody>
+          <TableRow className="bg-background!">
+            <TableCell className="text-center">
+              <div className="text-sm text-muted-foreground">Author</div>
+              <div className="mt-1">
+                <Badge className="group" asChild>
+                  <Link href={`/user?id=${code.author.uid}`}>
+                    {code.author.prefer_alias
+                      ? code.author.alias
+                      : code.author.name}
+                  </Link>
+                </Badge>
+              </div>
+            </TableCell>
+            <TableCell className="text-center">
+              <div className="text-sm text-muted-foreground">Node</div>
+              <div className="mt-1">
+                <Badge variant="secondary">{code.node.name}</Badge>
+              </div>
+            </TableCell>
+            <TableCell className="text-center">
+              <div className="text-sm text-muted-foreground">Lines</div>
+              <div className="mt-1">{lineCount}</div>
+            </TableCell>
+            <TableCell className="text-center">
+              <div className="text-sm text-muted-foreground">This block is</div>
+              <div className="mt-1">
+                <Badge variant="outline">
+                  {code.private ? "Private" : "Public"}
+                </Badge>
+              </div>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
       <Separator className="my-6" />
       <p className="text-muted-foreground mb-6 text-sm">{code.description}</p>
       <div className="text-sm flex flex-wrap items-center gap-2">
