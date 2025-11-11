@@ -1,4 +1,6 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import {
   BundledLanguage,
   CodeBlock,
@@ -10,7 +12,13 @@ import {
   CodeBlockHeader,
   CodeBlockItem,
 } from "@/components/ui/shadcn-io/code-block";
+import { getCategoriesApi } from "@/lib/api/node";
 import { LANGUAGES } from "@/lib/dataset";
+import { User } from "@/lib/types/user";
+import { idk } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
 
@@ -25,7 +33,7 @@ export default function Block({
     node_id: number;
     categories: Array<number>;
     created_at: string;
-    author: number;
+    author: User;
     private: boolean;
     description: string;
     node: {
@@ -34,6 +42,12 @@ export default function Block({
     };
   };
 }) {
+  const { data: cats } = useQuery({
+    queryKey: ["cats", code.node_id],
+    queryFn: (): idk => {
+      return getCategoriesApi({ node: code.node_id });
+    },
+  });
   const codeSet = [
     {
       language: code.language,
@@ -46,7 +60,7 @@ export default function Block({
   return (
     <main className="h-full w-full flex-1">
       <div className="border-b">
-        <h1 className="text-2xl border w-fit p-2 px-6">
+        <h1 className="text-lg pb-2 text-end">
           {code.title}
           {LANGUAGES.find((l) => l.value === code.language)?.ext ?? ".txt"}
         </h1>
@@ -82,6 +96,40 @@ export default function Block({
             )}
           </CodeBlockBody>
         </CodeBlock>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="flex justify-start items-center mt-4 gap-2 text-sm text-muted-foreground">
+          Author:{" "}
+          <Badge className="group" asChild>
+            <Link href={`/user?id=${code.author.uid}`}>
+              {code.author.prefer_alias ? code.author.alias : code.author.name}
+            </Link>
+          </Badge>
+        </div>
+        <div className="flex justify-end items-center mt-4 gap-2 text-sm text-muted-foreground">
+          This block is:{" "}
+          <Badge variant={"outline"}>
+            {code.private ? "Private" : "Public"}
+          </Badge>
+        </div>
+      </div>
+      <Separator className="my-6" />
+      <p className="text-muted-foreground mb-6 text-sm">{code.description}</p>
+      <div className="text-sm flex flex-wrap items-center gap-2">
+        <span className="font-medium text-muted-foreground mr-1">
+          Categories:
+        </span>
+        {code.categories.map((catId: number) => {
+          const cat = cats?.data?.find((c: any) => c.id === catId);
+          return cat ? (
+            <Badge
+              key={cat.id}
+              className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              {cat.name}
+            </Badge>
+          ) : null;
+        })}
       </div>
     </main>
   );
