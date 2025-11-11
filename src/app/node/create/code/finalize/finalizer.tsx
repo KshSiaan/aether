@@ -14,12 +14,14 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { createBlockApi, getCategoriesApi } from "@/lib/api/node";
 import { idk } from "@/lib/utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FileTextIcon, Loader2Icon, PointerIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -32,12 +34,16 @@ export default function Finalizer() {
     { title: string; language: string; code: idk; node: number } | undefined
   >();
   const [selectedCats, setSelectedCats] = useState<number[]>([]);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [description, setDescription] = useState("");
   const [{ token }] = useCookies(["token"]);
+  const qcl = useQueryClient();
   const { data, isPending } = useQuery({
     queryKey: ["cats", codeSet?.node],
     queryFn: () => getCategoriesApi({ node: codeSet!.node }),
     enabled: !!codeSet?.node,
   });
+
   const { mutate } = useMutation({
     mutationKey: ["create_block"],
     mutationFn: (data: {
@@ -46,6 +52,8 @@ export default function Finalizer() {
       code: string;
       node: number;
       categories: Array<number>;
+      private: boolean;
+      description: string;
     }) => {
       return createBlockApi({ data, token });
     },
@@ -54,8 +62,12 @@ export default function Finalizer() {
     },
     onSuccess: (res: idk) => {
       toast.success(res.message ?? "Success!");
+      qcl.invalidateQueries({ queryKey: ["nodes"] });
+      localStorage.removeItem("codeset");
+      navig.push("/app/features");
     },
   });
+
   useEffect(() => {
     const codeset = localStorage.getItem("codeset");
     if (codeset) {
@@ -65,14 +77,19 @@ export default function Finalizer() {
   }, []);
 
   function submitter() {
-    const dataset = { ...codeSet, categories: selectedCats };
+    const dataset = {
+      ...codeSet,
+      categories: selectedCats,
+      private: isPrivate,
+      description,
+    };
     mutate(dataset as idk);
   }
 
   if (isPending) {
     return (
-      <div className={`flex justify-center items-center h-24 mx-auto`}>
-        <Loader2Icon className={`animate-spin`} />
+      <div className="flex justify-center items-center h-24 mx-auto">
+        <Loader2Icon className="animate-spin" />
       </div>
     );
   }
@@ -103,11 +120,14 @@ export default function Finalizer() {
             </div>
           </HoverCardContent>
         </HoverCard>
+
         <p className="text-muted-foreground ">
           type: &nbsp; <Badge className="capitalize">{codeSet?.language}</Badge>
         </p>
+
         <Separator />
-        <div className="">
+
+        <div>
           <h4>Select categories of your code</h4>
           <div className="w-full grid grid-cols-2 gap-6 lg:grid-cols-6 mt-6">
             {data?.data?.map((x) => (
@@ -130,27 +150,35 @@ export default function Finalizer() {
             ))}
           </div>
         </div>
+
         <Separator />
-        <div className="flex items-center gap-2">
-          <Switch /> Public
+        <Label>Description:</Label>
+        <Input
+          placeholder="Type here.."
+          value={description}
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+        />
+
+        <Separator />
+        <div className="flex items-center justify-between gap-2">
+          <Label htmlFor="privacy-switch">
+            This block will be {isPrivate ? "Private" : "Public"}.
+          </Label>
+          <Switch
+            id="privacy-switch"
+            checked={!isPrivate ? false : true}
+            onCheckedChange={(checked) => setIsPrivate(checked)}
+          />
         </div>
       </CardContent>
+
       <CardFooter className="justify-end gap-4">
-        <Button
-          variant={"ghost"}
-          onClick={() => {
-            navig.back();
-          }}
-        >
+        <Button variant="ghost" onClick={() => navig.back()}>
           Go back
         </Button>
-        <Button
-          onClick={() => {
-            submitter();
-          }}
-        >
-          Confirm & Save
-        </Button>
+        <Button onClick={submitter}>Confirm & Save</Button>
       </CardFooter>
     </Card>
   );

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import NodeNav from "../node-nav";
+
 import {
   Select,
   SelectContent,
@@ -18,26 +18,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { cn, idk } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-
-export const LANGUAGES = [
-  { value: "javascript", label: "JavaScript", ext: ".js" },
-  { value: "typescript", label: "TypeScript", ext: ".ts" },
-  { value: "python", label: "Python", ext: ".py" },
-  { value: "cpp", label: "C++", ext: ".cpp" },
-  { value: "csharp", label: "C#", ext: ".cs" },
-  { value: "java", label: "Java", ext: ".java" },
-  { value: "rust", label: "Rust", ext: ".rs" },
-  { value: "go", label: "Go", ext: ".go" },
-  { value: "html", label: "HTML", ext: ".html" },
-  { value: "css", label: "CSS", ext: ".css" },
-  { value: "json", label: "JSON", ext: ".json" },
-  { value: "sql", label: "SQL", ext: ".sql" },
-  { value: "php", label: "PHP", ext: ".php" },
-  { value: "swift", label: "Swift", ext: ".swift" },
-  { value: "kotlin", label: "Kotlin", ext: ".kt" },
-  { value: "ruby", label: "Ruby", ext: ".rb" },
-  { value: "bash", label: "Bash", ext: ".sh" },
-];
+import { LANGUAGES } from "@/lib/dataset";
 
 export default function Code() {
   const [language, setLanguage] = useState("javascript");
@@ -208,31 +189,43 @@ export default function Code() {
             onClick={() => {
               if (charCount > 10000) {
                 toast.error(
-                  "You code must be under 10000 characters in order to submit it"
+                  "Your code must be under 10000 characters to submit"
                 );
+                return;
               }
 
               try {
                 const nodeAmm = localStorage.getItem("selectedNode");
-                let noder = null;
+                const prevCodeset = localStorage.getItem("codeset");
 
+                let nodeData: Record<string, any> | null = null;
                 if (nodeAmm) {
                   try {
-                    noder = JSON.parse(nodeAmm);
+                    nodeData = JSON.parse(nodeAmm);
                   } catch {
                     console.warn("Invalid selectedNode JSON, resetting it");
                     localStorage.removeItem("selectedNode");
                   }
                 }
 
+                let oldCodeset: Record<string, any> = {};
+                if (prevCodeset) {
+                  try {
+                    oldCodeset = JSON.parse(prevCodeset);
+                  } catch {
+                    console.warn("Invalid previous codeset JSON, ignoring it");
+                  }
+                }
+
                 const codeset = {
+                  ...oldCodeset,
                   title: fileName,
                   language,
                   code,
-                  ...(noder || {}),
+                  ...(nodeData ?? oldCodeset.node ?? {}),
                 };
 
-                if (noder) {
+                if (nodeData) {
                   localStorage.removeItem("selectedNode");
                 }
 

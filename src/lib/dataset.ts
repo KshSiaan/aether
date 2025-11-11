@@ -21,3 +21,24 @@ export const dataSet: Dataset[] = [
     link: "https://snipit-iota.vercel.app/",
   },
 ];
+
+
+export const LANGUAGES = [
+  { value: "javascript", label: "JavaScript", ext: ".js" },
+  { value: "typescript", label: "TypeScript", ext: ".ts" },
+  { value: "python", label: "Python", ext: ".py" },
+  { value: "cpp", label: "C++", ext: ".cpp" },
+  { value: "csharp", label: "C#", ext: ".cs" },
+  { value: "java", label: "Java", ext: ".java" },
+  { value: "rust", label: "Rust", ext: ".rs" },
+  { value: "go", label: "Go", ext: ".go" },
+  { value: "html", label: "HTML", ext: ".html" },
+  { value: "css", label: "CSS", ext: ".css" },
+  { value: "json", label: "JSON", ext: ".json" },
+  { value: "sql", label: "SQL", ext: ".sql" },
+  { value: "php", label: "PHP", ext: ".php" },
+  { value: "swift", label: "Swift", ext: ".swift" },
+  { value: "kotlin", label: "Kotlin", ext: ".kt" },
+  { value: "ruby", label: "Ruby", ext: ".rb" },
+  { value: "bash", label: "Bash", ext: ".sh" },
+];

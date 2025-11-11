@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import Block_list from "./block-list";
 
 export default async function Page({
@@ -7,11 +8,14 @@ export default async function Page({
 }) {
   const waiter = await params;
   const { id } = waiter;
-  console.log(id);
+
+  if (!id) {
+    return notFound();
+  }
 
   return (
     <div className="grid grid-cols-4 gap-6 h-full w-full items-start">
-      <Block_list />
+      <Block_list id={id} />
     </div>
   );
 }

@@ -34,8 +34,36 @@ export const createBlockApi = async ({data,token}:{
     code: string
     node: number
     categories: Array<number>
+    description:string
   },
   token:string
 }) => {
   return howl("/node/block",{method:"POST",body:data,token});
+};
+
+
+export const getBlocksByNodeIdApi = async ({node}:{node:string}) => {
+  return howl(`/node/block/node?node=${node}`);
+};
+export const getBlockByIdApi = async ({id}:{id:string}):Promise<{
+  ok:boolean,
+  data:{
+  id: number
+  title: string
+  language: string
+  code: string
+  node_id: number
+  categories: Array<number>
+  created_at: string
+  author: number
+  private: boolean
+  description: string
+  node: {
+    name: string
+    childs: Array<number>
+  }
+}
+}
+> => {
+  return howl(`/node/block/${id}`);
 };

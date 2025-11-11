@@ -11,68 +11,97 @@ import {
 } from "@/components/ui/card";
 import { dataSet } from "@/lib/dataset";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { getBlocksByNodeIdApi, getCategoriesApi } from "@/lib/api/node";
+import { Loader2Icon } from "lucide-react";
+import { idk } from "@/lib/utils";
 
-export default function Block_list() {
+export default function Block_list({ id }: { id: string }) {
   const { theme } = useTheme();
+  const { data, isPending } = useQuery({
+    queryKey: ["block_of_node", id],
+    queryFn: (): idk => {
+      return getBlocksByNodeIdApi({ node: id });
+    },
+  });
+  const { data: cats } = useQuery({
+    queryKey: ["cats", id],
+    queryFn: (): idk => {
+      return getCategoriesApi({ node: parseInt(id) });
+    },
+  });
+  if (isPending) {
+    return (
+      <div
+        className={`flex justify-center items-center h-24 mx-auto col-span-4`}
+      >
+        <Loader2Icon className={`animate-spin`} />
+      </div>
+    );
+  }
+  // return (
+  //   <pre className="bg-gradient-to-br from-zinc-900 via-zinc-800 col-span-4 to-zinc-900 text-amber-400 rounded-xl p-6 shadow-lg overflow-x-auto text-sm leading-relaxed border border-zinc-700">
+  //     <code className="whitespace-pre-wrap">
+  //       {JSON.stringify(data.data, null, 2)}
+  //     </code>
+  //   </pre>
+  // );
   return (
     <>
       <div className="col-span-3 grid-cols-2 grid gap-6 p-6">
-        {dataSet.map((x) => (
-          <Link
-            href={
-              x.internal
-                ? `https://snipit-iota.vercel.app`
-                : x.link ?? "https://github.com/kshsiaan"
-            }
+        {data?.data?.map((x: idk) => (
+          <MagicCard
             key={x.title}
+            gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
+            className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300"
           >
-            <MagicCard
-              gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-              className="aspect-video rounded-xl relative group cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              {/* Flex wrapper inside MagicCard */}
-              <div className="w-full flex flex-col h-full aspect-video py-6">
-                <CardHeader>
-                  <CardTitle>{x.title}</CardTitle>
-                  <p className="text-muted-foreground leading-relaxed text-sm group-hover:text-foreground transition-colors duration-300">
-                    {x.description}
-                  </p>
-                  <div className=" space-x-2">
-                    {x.tags.map((y) => (
-                      <Badge key={y} className="inline-block">
-                        {y}
+            {/* Flex wrapper inside MagicCard */}
+            <div className="w-full flex flex-col h-full aspect-video py-6">
+              <CardHeader>
+                <CardTitle>{x.title}</CardTitle>
+                <p className="text-muted-foreground leading-relaxed text-sm group-hover:text-foreground transition-colors duration-300">
+                  {x.description}
+                </p>
+                <div className=" space-x-2">
+                  {x.categories.map((catId: number) => {
+                    const cat = cats?.data?.find((c: idk) => c.id === catId);
+                    return cat ? (
+                      <Badge className="inline-block" key={cat.id}>
+                        {cat.name}
                       </Badge>
-                    ))}
-                  </div>
-                </CardHeader>
+                    ) : null;
+                  })}
+                </div>
+              </CardHeader>
 
-                <CardContent className="flex justify-between items-center mt-auto">
-                  <Button variant={"outline"} className="w-full">
-                    Open this application
-                  </Button>
-                </CardContent>
-                <CardFooter className="flex justify-end items-end text-xs mt-2">
-                  Author: {x.author}
-                </CardFooter>
-              </div>
+              <CardContent className="flex justify-between items-center mt-auto">
+                <Button variant={"outline"} className="w-full" asChild>
+                  <Link href={`/app/features/${id}/${x.id}`}>
+                    Open this block
+                  </Link>
+                </Button>
+              </CardContent>
+              <CardFooter className="flex justify-end items-end text-xs mt-2">
+                Author: {x.author.name}
+              </CardFooter>
+            </div>
 
-              {/* Floating particles effect */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div
-                  className="absolute top-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping"
-                  style={{ animationDelay: "0s" }}
-                ></div>
-                <div
-                  className="absolute top-1/2 right-1/4 w-1 h-1 bg-purple-400 rounded-full animate-ping"
-                  style={{ animationDelay: "0.5s" }}
-                ></div>
-                <div
-                  className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-pink-400 rounded-full animate-ping"
-                  style={{ animationDelay: "1s" }}
-                ></div>
-              </div>
-            </MagicCard>
-          </Link>
+            {/* Floating particles effect */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div
+                className="absolute top-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping"
+                style={{ animationDelay: "0s" }}
+              ></div>
+              <div
+                className="absolute top-1/2 right-1/4 w-1 h-1 bg-purple-400 rounded-full animate-ping"
+                style={{ animationDelay: "0.5s" }}
+              ></div>
+              <div
+                className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-pink-400 rounded-full animate-ping"
+                style={{ animationDelay: "1s" }}
+              ></div>
+            </div>
+          </MagicCard>
         ))}
       </div>
       <div className="border-l h-full flex flex-col justify-start items-start w-full">

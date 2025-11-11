@@ -9,7 +9,9 @@ export async function POST(req: NextRequest) {
   language: string
   code: string
   node: number
+  private:boolean
   categories: Array<number>
+  description:string
 } = await req.json();
   console.log(data);
   
@@ -73,7 +75,9 @@ export async function POST(req: NextRequest) {
       code:data.code,
       node_id:data.node,
       categories:data.categories,
-      author:uid
+      author:uid,
+      private:data.private,
+      description: data.description
     }]).select(      `
         *,
         node:node_id(
@@ -82,15 +86,38 @@ export async function POST(req: NextRequest) {
         )
       `).single();
 
+    // 1. Fetch the existing node data (if you haven't already)
+    const { data: previousDataNode, error: fetchError } = await supabase
+      .from("nodes")
+      .select("childs")
+      .eq("id", data.node)
+      .single();
+
+    if (fetchError) throw fetchError;
+
+    // 2. Append the new ID to the existing array
+    const updatedChilds = [...(previousDataNode.childs || []), dbData.id];
+
+    // 3. Update the node
+    const { data: dbData2, error: error2 } = await supabase
+      .from("nodes")
+      .update({ childs: updatedChilds })
+      .eq("id", data.node);
+
+
   if (error) {
     console.log(error);
     return NextResponse.json({ message: error.message }, { status: 502 });
+  }
+  if (error2) {
+    console.log(error2);
+    return NextResponse.json({ message: error2.message }, { status: 502 });
   }
 
   return NextResponse.json({
     ok: true,
     data: dbData, 
-    message:`Successfully created your block -> ${dbData.name}!`
+    message:`Successfully created your block -> ${dbData.title}!`
   });
 }
 
@@ -105,7 +132,8 @@ export async function GET(req: NextRequest) {
       node:node_id(
         name,
         childs
-      )
+      ),
+
     `);
 
   // if (id) query = query.eq("node_id", id);
