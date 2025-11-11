@@ -35,7 +35,9 @@ export default function Categories() {
   const qcl = useQueryClient();
   const { data, isPending } = useQuery({
     queryKey: ["cats"],
-    queryFn: getCategoriesApi,
+    queryFn: () => {
+      return getCategoriesApi({});
+    },
   });
   const { mutate } = useMutation({
     mutationKey: ["deleteNode"],
