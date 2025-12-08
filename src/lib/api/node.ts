@@ -43,9 +43,10 @@ export const createBlockApi = async ({data,token}:{
 };
 
 
-export const getBlocksByNodeIdApi = async ({node}:{node:string}) => {
-  return howl(`/node/block/node?node=${node}`);
+export const getBlocksByNodeIdApi = async ({node,cat}:{node:string,cat:string}) => {
+  return howl(`/node/block/node?node=${node}&cat=${cat}`);
 };
+
 export const getBlockByIdApi = async ({id}:{id:string}):Promise<{
   ok:boolean,
   data:{

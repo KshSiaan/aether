@@ -2,7 +2,7 @@
 // ?? DO NOT CHANGE THIS CONFIGURE FILE UNLESS YOU ARE AWARE OF WHAT IT DOES
 // ! THINK BEFORE YOU CHANGE THIS FILE
 
-export const base_api = `${process.env.NEXT_PUBLIC_URL}/api`;
+export const base_api = process.env.NEXT_PUBLIC_URL?`${process.env.NEXT_PUBLIC_URL}/api`:"/api";
 
 const onDev = process.env.NODE_ENV === "development";
 

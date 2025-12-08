@@ -4,9 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("node");
-    if (!id) {
-        
+  const category = req.nextUrl.searchParams.get("cat");
+    if (!id ) {
+        return NextResponse.json({ok:false,message:"No node is selected"});
     }
+
 let query = supabase
   .from("block")
   .select(`
@@ -22,6 +24,10 @@ let query = supabase
   `)
   .eq("node_id", id)
   .eq("private", false);
+
+  if (category) {
+    query.contains("categories", [category])
+  }
 
 
   const { data, error } = await query;

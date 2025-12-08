@@ -1,6 +1,5 @@
 "use client";
 import NotFound from "@/app/not-found";
-import PostBlock from "@/components/core/post";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,16 +8,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { BananaIcon } from "lucide-react";
+import { BananaIcon, CornerUpRightIcon, UserPlus2Icon } from "lucide-react";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
-import React from "react";
 import { getProfileApi } from "@/lib/api/user";
 import PostSect from "./post-sect";
-
+import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
+import * as jose from "jose";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 export default function Page() {
   const id: string | null = useSearchParams().get("id");
-
+  const [myId, setMyId] = useState<number | undefined>(undefined);
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["user"],
     queryFn: (): idk => {
@@ -26,9 +28,23 @@ export default function Page() {
     },
     enabled: !!id,
   });
+  const [{ token }] = useCookies(["token"]);
+  useEffect(() => {
+    if (token) {
+      try {
+        const unwraped: { uid: number } = jose.decodeJwt(token);
+
+        setMyId(unwraped.uid);
+      } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong");
+      }
+    }
+  }, []);
   if (!id) {
     return notFound();
   }
+
   if (isPending) {
     return (
       <div className=" pt-24! p-6 space-y-6">
@@ -42,6 +58,7 @@ export default function Page() {
       </div>
     );
   }
+
   if (isError) {
     console.error(error);
     return NotFound();
@@ -51,9 +68,9 @@ export default function Page() {
   return (
     <main className="w-full p-6 px-0 lg:px-6 mt-[64px]">
       <section className="w-full h-[400px] bg-secondary border-b-12 border-background relative rounded-b-3xl lg:rounded-3xl p-6">
-        <div className="absolute h-full w-full overflow-hidden top-0 left-0">
+        <div className="absolute h-full w-full overflow-hidden top-0 left-0 p-6 flex justify-center items-center">
           {user?.bio ? (
-            user.bio
+            <AnimatedShinyText>{user.bio}</AnimatedShinyText>
           ) : (
             <div className="h-full w-full flex flex-col justify-center items-center text-muted-foreground">
               <BananaIcon className="size-12 mb-6" />
@@ -89,27 +106,7 @@ export default function Page() {
             <span className="text-muted-foreground">aka</span> ( {user.name} )
           </p>
         </div>
-        {/* <div className="flex w-full justify-end items-center gap-2 mt-6">
-          <div className="space-x-6">
-            <Button variant={"outline"} asChild>
-              <Link href={"/profile/edit"}>Edit Profile</Link>
-            </Button>
-            <Button
-              variant={"destructive"}
-              onClick={() => {
-                try {
-                  removeToken("token");
-                  router.push("/login");
-                  toast.success("Singed out successfully");
-                } catch (error) {
-                  console.error(error);
-                }
-              }}
-            >
-              Sign Out
-            </Button>
-          </div>
-        </div> */}
+
         <div className="w-full grid pt-6 grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
           <Card>
             <CardHeader>
@@ -143,6 +140,18 @@ export default function Page() {
               {user.connects?.length ?? 0}
             </CardContent>
           </Card>
+        </div>
+        <div className="flex w-full justify-end items-center gap-2 mt-6">
+          {!!token && String(myId) !== String(user.uid) && (
+            <div className="space-x-6">
+              <Button>
+                <UserPlus2Icon /> Follow this spirit
+              </Button>
+              <Button variant="ghost">
+                <CornerUpRightIcon /> Share Profile
+              </Button>
+            </div>
+          )}
         </div>
       </section>
       <Tabs className="mt-6 lg:px-0" defaultValue="0">

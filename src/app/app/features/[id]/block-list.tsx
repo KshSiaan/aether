@@ -15,13 +15,15 @@ import { useQuery } from "@tanstack/react-query";
 import { getBlocksByNodeIdApi, getCategoriesApi } from "@/lib/api/node";
 import { Loader2Icon } from "lucide-react";
 import { idk } from "@/lib/utils";
+import { useState } from "react";
 
 export default function Block_list({ id }: { id: string }) {
   const { theme } = useTheme();
+  const [selectedCat, setSelectedCat] = useState<string | undefined>();
   const { data, isPending } = useQuery({
-    queryKey: ["block_of_node", id],
+    queryKey: ["block_of_node", id, selectedCat],
     queryFn: (): idk => {
-      return getBlocksByNodeIdApi({ node: id });
+      return getBlocksByNodeIdApi({ node: id, cat: selectedCat ?? "" });
     },
   });
   const { data: cats } = useQuery({
@@ -39,13 +41,6 @@ export default function Block_list({ id }: { id: string }) {
       </div>
     );
   }
-  // return (
-  //   <pre className="bg-gradient-to-br from-zinc-900 via-zinc-800 col-span-4 to-zinc-900 text-amber-400 rounded-xl p-6 shadow-lg overflow-x-auto text-sm leading-relaxed border border-zinc-700">
-  //     <code className="whitespace-pre-wrap">
-  //       {JSON.stringify(data.data, null, 2)}
-  //     </code>
-  //   </pre>
-  // );
   return (
     <>
       <div className="col-span-3 grid-cols-2 grid gap-6 p-6">
@@ -109,8 +104,26 @@ export default function Block_list({ id }: { id: string }) {
           <h4 className="text-end text-lg px-4">Categories</h4>
         </div>
         <div className="w-full flex-1 space-x-2 space-y-2 p-2">
+          <Button
+            size={"sm"}
+            disabled={!selectedCat}
+            variant={!selectedCat ? "outline" : "default"}
+            onClick={() => {
+              setSelectedCat("");
+            }}
+          >
+            All
+          </Button>
           {cats?.data?.map((x: idk) => (
-            <Button size={"sm"} key={x.id}>
+            <Button
+              size={"sm"}
+              disabled={x.id === selectedCat}
+              key={x.id}
+              variant={selectedCat === x.id ? "outline" : "default"}
+              onClick={() => {
+                setSelectedCat(x.id);
+              }}
+            >
               {x.name}
             </Button>
           ))}
