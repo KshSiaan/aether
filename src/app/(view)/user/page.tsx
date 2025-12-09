@@ -7,11 +7,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { BananaIcon, CornerUpRightIcon, UserPlus2Icon } from "lucide-react";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
-import { getProfileApi } from "@/lib/api/user";
+import { followSpiritApi, getProfileApi } from "@/lib/api/user";
 import PostSect from "./post-sect";
 import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 import * as jose from "jose";
@@ -21,6 +21,7 @@ import { toast } from "sonner";
 export default function Page() {
   const id: string | null = useSearchParams().get("id");
   const [myId, setMyId] = useState<number | undefined>(undefined);
+  const [{ token }] = useCookies(["token"]);
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["user"],
     queryFn: (): idk => {
@@ -28,7 +29,19 @@ export default function Page() {
     },
     enabled: !!id,
   });
-  const [{ token }] = useCookies(["token"]);
+  const { mutate } = useMutation({
+    mutationKey: ["follow", id],
+    mutationFn: () => {
+      return followSpiritApi(id as string, token);
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      toast.success(res.message ?? "Success!");
+    },
+  });
+
   useEffect(() => {
     if (token) {
       try {
@@ -144,7 +157,11 @@ export default function Page() {
         <div className="flex w-full justify-end items-center gap-2 mt-6">
           {!!token && String(myId) !== String(user.uid) && (
             <div className="space-x-6">
-              <Button>
+              <Button
+                onClick={() => {
+                  mutate();
+                }}
+              >
                 <UserPlus2Icon /> Follow this spirit
               </Button>
               <Button variant="ghost">
