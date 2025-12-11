@@ -7,33 +7,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  CodeXmlIcon,
-  ConstructionIcon,
-  DramaIcon,
-  HouseIcon,
-  MenuIcon,
-  NewspaperIcon,
-} from "lucide-react";
-import Link from "next/link";
+import { MenuIcon } from "lucide-react";
 import React from "react";
+import FriendsPanel from "./friends-panel";
 
 export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const FriendsPanel = () => (
-    <div className="space-y-4">
-      <h4 className="text-xl font-semibold">Friends</h4>
-      <div className="w-full rounded-lg border bg-muted/30 p-6 text-sm text-muted-foreground flex flex-col justify-center items-center gap-3">
-        <ConstructionIcon className="h-8 w-8" />
-        <p className="text-center">This feature is under development..</p>
-        <Button variant={"link"} asChild className="h-auto p-0">
-          <Link href={"/contact"}>want to help??</Link>
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
     <section className="w-full min-h-screen">
       {/* Mobile Layout */}

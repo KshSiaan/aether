@@ -6,6 +6,7 @@ import BentoSection from "./bento-section";
 import Analytics from "./_home/analytics";
 import Note from "./_home/note";
 import { Loader2Icon } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -21,8 +22,11 @@ export default function Home() {
               className="rounded-full lg:text-xl h-auto py-4  lg:px-12"
               variant={"secondary"}
               size={"lg"}
+              asChild
             >
-              <AnimatedShinyText>Open Aether</AnimatedShinyText>
+              <Link href={"/app/feed"}>
+                <AnimatedShinyText>Open Aether</AnimatedShinyText>
+              </Link>
             </Button>
           </div>
           <div className="h-[10dvh] lg:h-[300px]"></div>

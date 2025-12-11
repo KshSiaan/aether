@@ -14,4 +14,5 @@ export type User = {
   prefer_alias?: boolean;
   email: string;
   password: string;
+  isFollowing?:boolean
 };

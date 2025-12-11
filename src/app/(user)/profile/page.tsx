@@ -26,6 +26,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import PostSect from "./post-sect";
 import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
+import Buds from "./buds";
 
 export default function Page() {
   const [{ token }, , removeToken] = useCookies(["token"]);
@@ -181,7 +182,7 @@ export default function Page() {
           <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
             <div className="w-full flex justify-end items-center">
               <Button asChild>
-                <Link href={"/profile/posts/create"}>Create a node</Link>
+                <Link href={"/node/create"}>Create a node</Link>
               </Button>
             </div>
             {/* <PostSect /> */}
@@ -190,6 +191,11 @@ export default function Page() {
                 <Link href={"/profile/posts"}>View all my nodes</Link>
               </Button>
             </div>
+          </section>
+        </TabsContent>
+        <TabsContent value="2">
+          <section className="mt-3 w-full p-6 bg-secondary rounded-xl space-y-6">
+            <Buds />
           </section>
         </TabsContent>
       </Tabs>

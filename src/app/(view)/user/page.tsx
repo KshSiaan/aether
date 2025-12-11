@@ -7,8 +7,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@/lib/types/user";
 import { idk } from "@/lib/utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { BananaIcon, CornerUpRightIcon, UserPlus2Icon } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  BananaIcon,
+  CornerUpRightIcon,
+  UserMinus2Icon,
+  UserPlus2Icon,
+} from "lucide-react";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
 import { followSpiritApi, getProfileApi } from "@/lib/api/user";
@@ -22,10 +27,11 @@ export default function Page() {
   const id: string | null = useSearchParams().get("id");
   const [myId, setMyId] = useState<number | undefined>(undefined);
   const [{ token }] = useCookies(["token"]);
+  const qcl = useQueryClient();
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", id],
     queryFn: (): idk => {
-      return getProfileApi({ id: id ?? "" });
+      return getProfileApi({ id: id ?? "", token });
     },
     enabled: !!id,
   });
@@ -39,6 +45,7 @@ export default function Page() {
     },
     onSuccess: (res: idk) => {
       toast.success(res.message ?? "Success!");
+      qcl.invalidateQueries({ queryKey: ["user", id] });
     },
   });
 
@@ -154,15 +161,24 @@ export default function Page() {
             </CardContent>
           </Card>
         </div>
-        <div className="flex w-full justify-end items-center gap-2 mt-6">
+        <div className="flex w-full justify-center lg:justify-end items-center gap-2 mt-6 pb-6 lg:pb-2">
           {!!token && String(myId) !== String(user.uid) && (
             <div className="space-x-6">
               <Button
                 onClick={() => {
                   mutate();
                 }}
+                variant={user.isFollowing ? "outline" : "default"}
               >
-                <UserPlus2Icon /> Follow this spirit
+                {user.isFollowing ? (
+                  <>
+                    <UserMinus2Icon /> Unfollow this spirit
+                  </>
+                ) : (
+                  <>
+                    <UserPlus2Icon /> Follow this spirit
+                  </>
+                )}
               </Button>
               <Button variant="ghost">
                 <CornerUpRightIcon /> Share Profile

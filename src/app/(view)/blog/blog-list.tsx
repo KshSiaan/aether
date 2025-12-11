@@ -73,6 +73,13 @@ export default function BlogList() {
       qcl.invalidateQueries({ queryKey: ["saved_blogs"] });
     },
   });
+  const preview = (html: idk) => {
+    const text = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] })
+      .replace(/<[^>]*>?/gm, "") // remove leftover tags if any
+      .slice(0, 200); // limit chars
+
+    return text + (text.length >= 200 ? "..." : "");
+  };
 
   if (isPending) {
     return (
@@ -104,10 +111,9 @@ export default function BlogList() {
       </CardHeader>
 
       <CardContent>
-        <CardDescription
-          className="mt-2 text-sm"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(x.body) }}
-        />
+        <CardDescription className="mt-2 text-sm">
+          {preview(x.body)}
+        </CardDescription>
       </CardContent>
 
       <CardFooter className="border-t flex justify-between items-center">

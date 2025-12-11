@@ -99,7 +99,7 @@ export default function Analytics() {
   const stats = [
     {
       title: "Nodes",
-      value: "N/A",
+      value: data?.nodes ?? "N/A",
       icon: ZapIcon,
       gradient: "from-teal-500 to-indigo-500",
       bgGradient:

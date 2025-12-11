@@ -28,7 +28,8 @@ export default function ClientView() {
 
   return (
     <motion.div
-      className="h-[50dvw] lg:h-[600px] z-30 aspect-[3/2] lg:aspect-video bg-background rounded-2xl border-4 absolute -bottom-[50dvw] lg:-bottom-[600px] left-1/2 -translate-1/2 shadow-2xl overflow-hidden"
+      className="h-[50dvw] lg:h-[600px] z-30 aspect-[3/2] lg:aspect-video bg-contain bg-center bg-no-repeat bg-background rounded-2xl border-4 absolute -bottom-[50dvw] lg:-bottom-[600px] left-1/2 -translate-1/2 shadow-2xl overflow-hidden"
+      style={{ backgroundImage: `url('/img/hero.webp')` }}
       whileTap={{
         scale: 0.98,
         transition: { type: "spring", stiffness: 400, damping: 17 },
