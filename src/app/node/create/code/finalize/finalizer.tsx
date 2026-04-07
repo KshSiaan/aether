@@ -140,7 +140,7 @@ export default function Finalizer() {
                       setSelectedCats((prev) => [...prev, x.id]);
                     } else {
                       setSelectedCats((prev) =>
-                        prev.filter((id) => id !== x.id)
+                        prev.filter((id) => id !== x.id),
                       );
                     }
                   }}

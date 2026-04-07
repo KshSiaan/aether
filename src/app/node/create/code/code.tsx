@@ -55,7 +55,7 @@ export default function Code() {
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      `data:text/plain;charset=utf-8,${encodeURIComponent(code)}`
+      `data:text/plain;charset=utf-8,${encodeURIComponent(code)}`,
     );
     element.setAttribute("download", `${fileName}${ext}`);
     element.style.display = "none";
@@ -77,7 +77,7 @@ export default function Code() {
           </span>
           <span className="text-xs text-muted-foreground ml-auto">
             {lineCount} lines •{" "}
-            <span className={cn(charCount > 10000 && "text-destructive")}>
+            <span className={cn(charCount > 20000 && "text-destructive")}>
               {charCount} chars
             </span>
           </span>
@@ -189,7 +189,7 @@ export default function Code() {
             onClick={() => {
               if (charCount > 10000) {
                 toast.error(
-                  "Your code must be under 10000 characters to submit"
+                  "Your code must be under 10000 characters to submit",
                 );
                 return;
               }
