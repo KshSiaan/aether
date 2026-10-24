@@ -80,7 +80,7 @@ export default function Page() {
         <Editor
           editorSerializedState={editorState}
           onSerializedChange={(value) => setEditorState(value)}
-          onHtmlChange={(htmlString) => setHtml(htmlString)} // ✅ capture HTML here
+          onChange={(htmlString) => setHtml(htmlString)} // ✅ capture HTML here
         />
       </div>
 
