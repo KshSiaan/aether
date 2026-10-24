@@ -75,7 +75,7 @@ export function Editor({
               // ✅ Convert to HTML
               editorState.read(() => {
                 const html = $generateHtmlFromNodes(editor);
-                onHtmlChange?.(html);
+                onChange?.(html);
               });
             }}
           />
